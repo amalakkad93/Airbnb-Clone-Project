@@ -22,7 +22,6 @@ module.exports = {
     ], { validate: true })
   },
 
-
   async down (queryInterface, Sequelize) {
     options.tableName = 'SpotImages';
     const Op = Sequelize.Op;
