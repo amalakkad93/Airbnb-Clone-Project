@@ -5,7 +5,7 @@ const { Spot } = require('../models')
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
-options.schema = process.env.SCHEMA; // define your schema in options object
+  options.schema = process.env.SCHEMA; // define your schema in options object
 }
 
 module.exports = {
@@ -22,7 +22,7 @@ module.exports = {
         lng: -140.4730327,
         name: "Super Cool",
         description: "Place where you can get a hair cut",
-        price: 15,
+        price: 15.00,
       },
       {
         ownerId: 2,
@@ -34,7 +34,7 @@ module.exports = {
         lng: -122.4730327,
         name: "App Academy",
         description: "Place where web developers are created",
-        price: 123,
+        price: 123.00,
       },
       {
         ownerId: 3,
@@ -46,7 +46,7 @@ module.exports = {
         lng: -150.4730327,
         name: "Whole Food",
         description: "Place where where you can buy organic food",
-        price: 50,
+        price: 50.00,
       },
     ], { validate: true })
   },
@@ -59,4 +59,5 @@ module.exports = {
       ownerId: { [Op.in]: [1, 2, 3] }
     }, {});
   }
+
 };
