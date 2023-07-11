@@ -12,7 +12,8 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+
       },
       firstName: {
         type: Sequelize.STRING,
@@ -52,5 +53,6 @@ module.exports = {
   async down(queryInterface, Sequelize) {
     options.tableName = "Users";
     return queryInterface.dropTable(options);
+    
   }
 };
