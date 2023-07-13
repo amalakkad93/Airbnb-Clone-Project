@@ -4,21 +4,19 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Review extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+
     static associate(models) {
       // define association here
       Review.belongsTo(models.User, { foreignKey: 'userId' });
       Review.hasMany(models.ReviewImage, { foreignKey: 'reviewId', onDelete: 'CASCADE', hooks: true });
-      Review.belongsTo(models.Spot, {foreignKey: 'spotId'})
-      // Review.belongsToMany(models.Spot, { through: models.Review, foreignKey: "userId", otherKey: "spotId" });
-
+      Review.belongsTo(models.Spot, { foreignKey: 'spotId' }); // Update the association here
     }
   }
   Review.init({
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true
+    },
     spotId: DataTypes.INTEGER,
     userId: DataTypes.INTEGER,
     review: DataTypes.STRING,

@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const { requireAuth } = require("../../utils/auth");
-const { Spot, User, Review, SpotImage, sequelize } = require("../../db/models");
+const { Spot, User, Review, SpotImage, ReviewImage, sequelize } = require("../../db/models");
 
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
@@ -42,9 +42,6 @@ const validateSpot = [
     .withMessage('Price per day is required'),
   handleValidationErrors
 ];
-
-
-
 
 //======== Get all Spots ========
 router.get("/", async (req, res) => {
@@ -201,6 +198,39 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
 
 })
 
+
+// Get all Reviews by a Spot's id
+router.get('/:spotId/reviews', async (req, res) => {
+  const options = {
+    include: [
+      {
+        model: User,
+        attributes: ['id', 'firstName', 'lastName'],
+      },
+      {
+        model: ReviewImage,
+        attributes: ['id', 'url'],
+      },
+    ],
+    where: { spotId: req.params.spotId },
+  };
+  const reviews = await Review.findAll(options);
+
+  if (reviews.length === 0) {
+    return res.status(404).json({ message: 'Spot not found' });
+  }
+
+  const updatedReviews = reviews.map((review) => {
+    const reviewJSON = review.toJSON();
+    if (reviewJSON.Spot) {
+      reviewJSON.Spot.previewImage = reviewJSON.Spot.SpotImages[0]?.url || null;
+      delete reviewJSON.Spot.SpotImages;
+    }
+    return reviewJSON;
+  });
+
+  res.json({ Reviews: updatedReviews });
+});
 
 //***********Helper functions***********
   const processSpots = (spots) => {
