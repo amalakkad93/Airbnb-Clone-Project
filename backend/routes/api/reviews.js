@@ -75,7 +75,7 @@ router.get("/current", requireAuth, async (req, res) => {
     const reviewJSON = review.toJSON();
 
     const previewImage = reviewJSON.Spot.SpotImages.find( (spotImage) => spotImage.preview );
-    reviewJSON.Spot.previewImage = previewImage ? previewImage.url : null;
+    reviewJSON.Spot.previewImage = previewImage ? previewImage.url : 0;
 
     delete reviewJSON.Spot.SpotImages;
 
