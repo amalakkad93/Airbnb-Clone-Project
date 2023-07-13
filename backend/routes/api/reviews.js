@@ -9,39 +9,39 @@ const { handleValidationErrors } = require("../../utils/validation");
 const spot = require("../../db/models/spot");
 const { json } = require("sequelize");
 
-const validateSpot = [
-  check('address')
-    .exists({ checkFalsy: true })
-    .withMessage('Street address is required.'),
-  check('city')
-    .exists({ checkFalsy: true })
-    .withMessage('City is required'),
-  check('state')
-    .exists({ checkFalsy: true })
-    .withMessage('State is required'),
-  check('country')
-    .exists({ checkFalsy: true })
-    .withMessage('Country is required'),
-  check('lat')
-    .exists({ checkFalsy: true })
-    .isFloat({ min: -90, max: 90 })
-    .withMessage('Latitude is not valid'),
-  check('lng')
-    .exists({ checkFalsy: true })
-    .isFloat({ min: -180, max: 180 })
-    .withMessage('Longitude is not valid'),
-  check('name')
-    .exists({ checkFalsy: true })
-    .isLength({ min: 1, max: 49 })
-    .withMessage('Name must be less than 50 characters'),
-  check('description')
-    .exists({ checkFalsy: true })
-    .withMessage('Description is required'),
-  check('price')
-    .exists({ checkFalsy: true })
-    .withMessage('Price per day is required'),
-  handleValidationErrors
-];
+// const validateSpot = [
+//   check('address')
+//     .exists({ checkFalsy: true })
+//     .withMessage('Street address is required.'),
+//   check('city')
+//     .exists({ checkFalsy: true })
+//     .withMessage('City is required'),
+//   check('state')
+//     .exists({ checkFalsy: true })
+//     .withMessage('State is required'),
+//   check('country')
+//     .exists({ checkFalsy: true })
+//     .withMessage('Country is required'),
+//   check('lat')
+//     .exists({ checkFalsy: true })
+//     .isFloat({ min: -90, max: 90 })
+//     .withMessage('Latitude is not valid'),
+//   check('lng')
+//     .exists({ checkFalsy: true })
+//     .isFloat({ min: -180, max: 180 })
+//     .withMessage('Longitude is not valid'),
+//   check('name')
+//     .exists({ checkFalsy: true })
+//     .isLength({ min: 1, max: 49 })
+//     .withMessage('Name must be less than 50 characters'),
+//   check('description')
+//     .exists({ checkFalsy: true })
+//     .withMessage('Description is required'),
+//   check('price')
+//     .exists({ checkFalsy: true })
+//     .withMessage('Price per day is required'),
+//   handleValidationErrors
+// ];
 
 // ======== Get all Reviews of the Current User ========
 router.get("/current", requireAuth, async (req, res) => {
@@ -75,7 +75,7 @@ router.get("/current", requireAuth, async (req, res) => {
     const reviewJSON = review.toJSON();
 
     const previewImage = reviewJSON.Spot.SpotImages.find( (spotImage) => spotImage.preview );
-    reviewJSON.Spot.previewImage = previewImage ? previewImage.url : 0;
+    reviewJSON.Spot.previewImage = previewImage ? previewImage.url : null;
 
     delete reviewJSON.Spot.SpotImages;
 
