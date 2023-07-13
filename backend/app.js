@@ -15,6 +15,11 @@ const isProduction = environment === 'production';
 // Initialize the Express application:
 const app = express();
 
+// backend/app.js
+const routes = require('./routes');
+
+const { ValidationError } = require('sequelize');
+
 // Connect the morgan middleware for logging information about requests and responses:
 app.use(morgan('dev'));
 
@@ -46,13 +51,9 @@ app.use(
   })
 );
 
-// backend/app.js
-const routes = require('./routes');
-
 // ...
 
 app.use(routes); // Connect all the routes
-
 
 // ...
 
@@ -65,11 +66,6 @@ app.use((_req, _res, next) => {
   err.status = 404;
   next(err);
 });
-
-// ...
-const { ValidationError } = require('sequelize');
-
-// ...
 
 // Process sequelize errors
 app.use((err, _req, _res, next) => {
