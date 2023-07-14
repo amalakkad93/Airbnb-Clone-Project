@@ -9,39 +9,15 @@ const { handleValidationErrors } = require("../../utils/validation");
 const spot = require("../../db/models/spot");
 const { json } = require("sequelize");
 
-// const validateSpot = [
-//   check('address')
-//     .exists({ checkFalsy: true })
-//     .withMessage('Street address is required.'),
-//   check('city')
-//     .exists({ checkFalsy: true })
-//     .withMessage('City is required'),
-//   check('state')
-//     .exists({ checkFalsy: true })
-//     .withMessage('State is required'),
-//   check('country')
-//     .exists({ checkFalsy: true })
-//     .withMessage('Country is required'),
-//   check('lat')
-//     .exists({ checkFalsy: true })
-//     .isFloat({ min: -90, max: 90 })
-//     .withMessage('Latitude is not valid'),
-//   check('lng')
-//     .exists({ checkFalsy: true })
-//     .isFloat({ min: -180, max: 180 })
-//     .withMessage('Longitude is not valid'),
-//   check('name')
-//     .exists({ checkFalsy: true })
-//     .isLength({ min: 1, max: 49 })
-//     .withMessage('Name must be less than 50 characters'),
-//   check('description')
-//     .exists({ checkFalsy: true })
-//     .withMessage('Description is required'),
-//   check('price')
-//     .exists({ checkFalsy: true })
-//     .withMessage('Price per day is required'),
-//   handleValidationErrors
-// ];
+const validateReview = [
+  check('review')
+      .exists({ checkFalsy: true })
+      .withMessage('Review text is required'),
+  check('stars')
+      .isIn([1, 2, 3, 4, 5])
+      .withMessage("Stars must be an integer from 1 to 5"),
+  handleValidationErrors
+];
 
 // ======== Get all Reviews of the Current User ========
 router.get("/current", requireAuth, async (req, res) => {
@@ -83,6 +59,11 @@ router.get("/current", requireAuth, async (req, res) => {
   });
   res.json({ Reviews: reviews });
 });
+
+// Add an Image to a Review based on the Review's id
+// Edit a Review
+// Delete a Review
+
 
 
 
