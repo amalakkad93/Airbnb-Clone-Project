@@ -71,41 +71,6 @@ const errorResponse403 = (err, req, res, next) => {
       .json({ message: 'Forbidden' })
 }
 
-// const auth = (statusCode, message, req, res, next) => {
-//   res.status(statusCode)
-//       .setHeader('Content-Type', 'application/json')
-//       .json({ message });
-// };
-
-// const handleErrorResponse = (error, res) => {
-//   let statusCode = 500; // Internal Server Error
-//   let message = 'Internal Server Error';
-
-//   if (error instanceof CustomError) {
-//     // Handle specific custom error types
-//     statusCode = error.statusCode;
-//     message = error.message;
-//   } else if (error instanceof SequelizeValidationError) {
-//     // Handle Sequelize validation errors
-//     statusCode = 400; // Bad Request
-//     message = 'Validation error';
-//   } else if (error instanceof SequelizeUniqueConstraintError) {
-//     // Handle Sequelize unique constraint errors
-//     statusCode = 409; // Conflict
-//     message = 'Conflict';
-//   } else if (error.statusCode === 403) {
-//     // Handle 403 (Forbidden) errors
-//     statusCode = 403;
-//     message = 'Forbidden';
-//   } else if (error.statusCode === 404) {
-//     // Handle 404 (Not Found) errors
-//     statusCode = 404;
-//     message = 'Not Found';
-//   }
-
-//   res.status(statusCode).json({ message });
-// };
-
 //****************************************************************************************** */
 //======== Get all Spots ========
 router.get("/", async (req, res) => {
@@ -328,61 +293,12 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res) =>
 
 });
 
-// // Get all Bookings for a Spot based on the Spot's id
-// router.get('/:spotId/bookings', async (req, res) => {
-
-//   if(req.user.id === req.spot.ownerId) {
-
-//     const reviews = await Review.findAll({
-//       include: [
-//         {
-//           model: User,
-//           attributes: ['id', 'firstName', 'lastName'],
-//         },
-//         {
-//           model: ReviewImage,
-//           attributes: ['id', 'url'],
-//         },
-//       ],
-//       where: { spotId: req.params.spotId },
-//     });
-
-
-//   }
-//   const reviews = await Review.findAll({
-//     include: [
-//       {
-//         model: User,
-//         attributes: ['id', 'firstName', 'lastName'],
-//       },
-//       {
-//         model: ReviewImage,
-//         attributes: ['id', 'url'],
-//       },
-//     ],
-//     where: { spotId: req.params.spotId },
-//   });
-
-//   if (reviews.length === 0) {
-//     return res.status(404).json({ message: 'Spot not found' });
-//   }
-
-//   const updatedReviews = reviews.map((review) => {
-//     const reviewJSON = review.toJSON();
-//     if (reviewJSON.Spot) {
-//       reviewJSON.Spot.previewImage = reviewJSON.Spot.SpotImages[0]?.url || null;
-//       delete reviewJSON.Spot.SpotImages;
-//     }
-//     return reviewJSON;
-//   });
-
-//   res.json({ Reviews: updatedReviews });
-// });
-
 // Get all Bookings for a Spot based on the Spot's id
 router.get('/:spotId/bookings', requireAuth, async (req, res) => {
   const spot = await Spot.findByPk(req.params.spotId)
-
+  const bookingObj = {}
+  let bookingArr = []
+  let result = []
   if (!spot) {
       return res.status(404).json({ message: "Spot couldn't be found" });
   }
@@ -392,8 +308,23 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
           where: { spotId: req.params.spotId },
           include: { model: User, attributes: ['id', 'firstName', 'lastName'] }
       })
-      
-      res.json({ Bookings: bookings })
+      bookings.forEach(booking => {
+        bookingArr.push(booking.toJSON())
+      })
+      bookingArr.forEach((ele) => {
+        let bookingList = {};
+        bookingList.User = ele.User;
+        bookingList.id = ele.id;
+        bookingList.spotId = ele.spotId;
+        bookingList.userId = ele.userId;
+        bookingList.startDate = ele.startDate;
+        bookingList.endDate = ele.endDate;
+        bookingList.createdAt = ele.createdAt;
+        bookingList.updatedAt = ele.updatedAt;
+        result.push(bookingList);
+      });
+
+      res.json({ Bookings: result })
   } else {
       const bookings = await Booking.findAll({
           where: { spotId: req.params.spotId },
@@ -403,28 +334,6 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
       res.json({ Bookings: bookings })
   }
 })
-// router.get('/:spotId/bookings', requireAuth, async (req, res) => {
-//   const spot = await Spot.findByPk(req.params.spotId)
-
-//   if (!spot) {
-//       return res.status(404).json({ message: "Spot couldn't be found" });
-//   }
-
-//   if (spot.ownerId === req.user.id) {
-//       const bookings = await Booking.findAll({
-//           where: { spotId: req.params.spotId },
-//           include: { model: User, attributes: ['id', 'firstName', 'lastName'] }
-//       })
-//       res.json({ Bookings: bookings })
-//   } else {
-//       const bookings = await Booking.findAll({
-//           where: { spotId: req.params.spotId },
-//           attributes: ['spotId', 'startDate', 'endDate'] // Only these attributes will be returned
-//       })
-
-//       res.json({ Bookings: bookings })
-//   }
-// })
 
 // Create a Booking from a Spot based on the Spot's id
 router.post('/:spotId/bookings', requireAuth, async (req, res) => {

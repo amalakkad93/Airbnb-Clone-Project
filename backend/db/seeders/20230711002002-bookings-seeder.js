@@ -14,8 +14,8 @@ module.exports = {
          // should edit booking
         spotId: 1,
         userId: 1,
-        startDate: "2076-12-25",
-        endDate: "2076-12-26"
+        startDate: "2026-07-14",
+        endDate: "2026-12-26"
       },
       {
         // should not edit booking
