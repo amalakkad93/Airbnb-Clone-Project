@@ -4,7 +4,7 @@ const router = express.Router();
 const { requireAuth } = require("../../utils/auth");
 const { Spot, User, Review, SpotImage, ReviewImage, Booking, sequelize } = require("../../db/models");
 
-const { check } = require("express-validator");
+const { check, validationResult } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
 const spot = require("../../db/models/spot");
 const { json } = require("sequelize");
@@ -45,6 +45,46 @@ const validateSpot = [
   handleValidationErrors
 ];
 
+//***********************************
+
+const validateQueryParams = [
+  check('page')
+  .optional()
+    .isInt({ min: 1, max: 10 })
+    .withMessage('Page must be an integer between 1 and 10'),
+  check('size')
+  .optional()
+    .isInt({ min: 1, max: 20 })
+    .withMessage('Size must be an integer between 1 and 20'),
+  check('minLat')
+    .optional()
+    .isFloat({ min: -90, max: 90 })
+    .withMessage('Minimum latitude is invalid'),
+  check('maxLat')
+    .optional()
+    .isFloat({ min: -90, max: 90 })
+    .withMessage('Maximum latitude is invalid'),
+  check('minLng')
+    .optional()
+    .isFloat({ min: -180, max: 180 })
+    .withMessage('Minimum longitude is invalid'),
+  check('maxLng')
+    .optional()
+    .isFloat({ min: -180, max: 180 })
+    .withMessage('Maximum longitude is invalid'),
+  check('minPrice')
+    .optional()
+    .isFloat({ min: 0 })
+    .withMessage('Minimum price must be greater than or equal to 0'),
+  check('maxPrice')
+    .optional()
+    .isFloat({ min: 0 })
+    .withMessage('Maximum price must be greater than or equal to 0'),
+    handleValidationErrors
+];
+
+//***********************************
+
 const validateReview = [
   check('review')
       .exists({ checkFalsy: true })
@@ -54,6 +94,8 @@ const validateReview = [
       .withMessage("Stars must be an integer from 1 to 5"),
   handleValidationErrors
 ];
+
+//***********************************
 
 const validateBooking = [
   check("startDate")
@@ -65,6 +107,24 @@ const validateBooking = [
   handleValidationErrors,
 ];
 
+//***********************************
+
+const queryParamValidationErrors = (err, req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const errorResponse = {
+      message: 'Bad Request',
+      errors: err.errors,
+    };
+
+    return res.status(400).json(errorResponse);
+  }
+
+  next();
+};
+
+//***********************************
+
 const errorResponse403 = (err, req, res, next) => {
   res.status(403)
       .setHeader('Content-Type', 'application/json')
@@ -72,26 +132,6 @@ const errorResponse403 = (err, req, res, next) => {
 }
 
 //****************************************************************************************** */
-//======== Get all Spots ========
-router.get("/", async (req, res) => {
-
-  const spots = await Spot.findAll({
-
-    include: [
-      {
-        model: Review,
-        attributes: ['stars']
-      },
-      {
-        model: SpotImage,
-        attributes: ['url', 'preview']
-      },
-    ]
-  });
-
-  let spotsList = processSpots(spots)
-  res.json(spotsList);
-})
 
 //======== Get all Spots owned by the Current User ========
 router.get('/current', requireAuth, async (req, res) => {
@@ -234,7 +274,7 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
   else if(spotOwner && spotOwner.ownerId !== req.user.id) next(err)
 }, errorResponse403)
 
-// Get all Reviews by a Spot's id
+//======== Get all Reviews by a Spot's id ========
 router.get('/:spotId/reviews', async (req, res) => {
   const options = {
     include: [
@@ -267,7 +307,7 @@ router.get('/:spotId/reviews', async (req, res) => {
   res.json({ Reviews: updatedReviews });
 });
 
-// Create a Review for a Spot based on the Spot's id
+// ======== Create a Review for a Spot based on the Spot's id ========
 router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res) => {
   const { review, stars } = req.body;
   const spotId = req.params.spotId;
@@ -293,7 +333,7 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res) =>
 
 });
 
-// Get all Bookings for a Spot based on the Spot's id
+//======== Get all Bookings for a Spot based on the Spot's id ========
 router.get('/:spotId/bookings', requireAuth, async (req, res) => {
   const spot = await Spot.findByPk(req.params.spotId)
   const bookingObj = {}
@@ -328,14 +368,14 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
   } else {
       const bookings = await Booking.findAll({
           where: { spotId: req.params.spotId },
-          attributes: ['spotId', 'startDate', 'endDate'] // Only these attributes will be returned
+          attributes: ['spotId', 'startDate', 'endDate']
       })
 
       res.json({ Bookings: bookings })
   }
 })
 
-// Create a Booking from a Spot based on the Spot's id
+//======== Create a Booking from a Spot based on the Spot's id ========
 router.post('/:spotId/bookings', requireAuth, async (req, res) => {
   const { startDate, endDate } = req.body;
   const spotId = req.params.spotId;
@@ -388,6 +428,32 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
 
 }, errorResponse403);
 
+
+//======== Get all Spots ========
+router.get("/", validateQueryParams, queryParamValidationErrors, async (req, res) => {
+
+  let { page=1, size=20, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
+
+
+  const spots = await Spot.findAll({
+
+    ...getPagination(req.query),
+    include: [
+      {
+        model: Review,
+        attributes: ['stars']
+      },
+      {
+        model: SpotImage,
+        attributes: ['url', 'preview']
+      },
+    ]
+  });
+
+  let spotsList = processSpots(spots);
+  return res.json({ Spots: spotsList, page, size});
+});
+
 //***********Helper functions***********
   const processSpots = (spots) => {
 
@@ -408,6 +474,18 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
       return spot;
     });
   }
+
+  const getPagination = (queryParams) => {
+    let { page, size } = queryParams;
+
+    page = page === undefined ? 1 : parseInt(page);
+    size = size === undefined ? 20 : parseInt(size);
+    const limit = parseInt(size, 20);
+    const offset = (parseInt(page, 20) - 1) * limit;
+
+    return { limit, offset };
+  };
+
    //*********************************
 
 module.exports = router;
