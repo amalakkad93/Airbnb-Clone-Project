@@ -169,7 +169,7 @@ const createErrorHandler = (statusCode, message, data = {}, res) => {
 //****************************************************************************************** */
 
 //======== Get all Spots owned by the Current User ========
-router.get('/current', requireAuth, errorAuth, async (req, res) => {
+router.get('/current', requireAuth, async (req, res) => {
 
   const userId = req.user.id;
   const spots = await Spot.findAll({
@@ -228,7 +228,7 @@ router.get('/:spotId', async (req, res) => {
 });
 
 //======== Create a Spot ========
-router.post('/', requireAuth, validateSpot, errorAuth, async (req, res) => {
+router.post('/', requireAuth, validateSpot, async (req, res) => {
   const { user } = req;
   const { address, city, state, country, lat, lng, name, description, price } = req.body;
   if(user) {
@@ -259,7 +259,7 @@ router.post('/', requireAuth, validateSpot, errorAuth, async (req, res) => {
 });
 
 //======== Add an Image to a Spot based on the Spot's id ========
-router.post("/:spotId/images", requireAuth, errorAuth, async (req, res) => {
+router.post("/:spotId/images", requireAuth, async (req, res) => {
   const { url, preview } = req.body;
   const spotId = req.params.spotId;
 
@@ -284,7 +284,7 @@ router.post("/:spotId/images", requireAuth, errorAuth, async (req, res) => {
 
 
 //======== Edit a Spot ========
-router.put("/:spotId", requireAuth, validateSpot, displayvaldErr, errorAuth, async (req, res) => {
+router.put("/:spotId", requireAuth, validateSpot, displayvaldErr, async (req, res) => {
 
   const spotId = req.params.spotId;
 
@@ -346,7 +346,7 @@ router.get('/:spotId/reviews', async (req, res) => {
 });
 
 // ======== Create a Review for a Spot based on the Spot's id ========
-router.post('/:spotId/reviews', requireAuth, validateReview, errorAuth, async (req, res) => {
+router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res) => {
   const { review, stars } = req.body;
   const spotId = req.params.spotId;
   const userId = req.user.id;
@@ -368,7 +368,7 @@ router.post('/:spotId/reviews', requireAuth, validateReview, errorAuth, async (r
 });
 
 //======== Get all Bookings for a Spot based on the Spot's id ========
-router.get('/:spotId/bookings', requireAuth, errorAuth, async (req, res) => {
+router.get('/:spotId/bookings', requireAuth, async (req, res) => {
   const spot = await Spot.findByPk(req.params.spotId);
 
   if (!spot) return createErrorHandler(404, "Spot couldn't be found", {}, res);
@@ -404,7 +404,7 @@ router.get('/:spotId/bookings', requireAuth, errorAuth, async (req, res) => {
 });
 
 //======== Create a Booking from a Spot based on the Spot's id ========
-router.post('/:spotId/bookings', requireAuth, errorAuth, async (req, res) => {
+router.post('/:spotId/bookings', requireAuth, async (req, res) => {
   const { startDate, endDate } = req.body;
   const spotId = req.params.spotId;
   const userId = req.user.id;
