@@ -307,9 +307,9 @@ router.post("/:spotId/images", requireAuth, async (req, res) => {
   }
 });
 
-
-//======== Edit a Spot ========
-router.put("/:spotId", requireAuth, validateSpot, displayvaldErr, async (req, res) => {
+// ***********************************************************************************************************************
+//======== Edit a Spot ========*****************
+router.put("/:spotId", requireAuth, authCatch, validateSpot, displayvaldErr, async (req, res) => {
 
   const spotId = req.params.spotId;
 
@@ -325,7 +325,7 @@ router.put("/:spotId", requireAuth, validateSpot, displayvaldErr, async (req, re
     next(err)
   }
 }, errorResponse403);
-
+// ***********************************************************************************************************************
 //======== Delete a Spot ========
 router.delete('/:spotId', requireAuth, errorAuth, async (req, res) => {
   const spotId = req.params.spotId;
