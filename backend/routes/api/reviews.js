@@ -9,6 +9,14 @@ const { handleValidationErrors } = require("../../utils/validation");
 const spot = require("../../db/models/spot");
 const { json } = require("sequelize");
 
+const authCatch=(err,req,res,next)=>{
+  res.status(401)
+  .setHeader('Content-Type','application/json')
+  .json({
+      message: "Authentication required"
+    })
+  }
+
 const validateReview = [
   check('review')
       .exists({ checkFalsy: true })

@@ -10,6 +10,13 @@ const spot = require("../../db/models/spot");
 const { json } = require("sequelize");
 const { Op } = require('sequelize');
 
+const authCatch=(err,req,res,next)=>{
+  res.status(401)
+  .setHeader('Content-Type','application/json')
+  .json({
+      message: "Authentication required"
+    })
+  }
 
 const createErrorHandler = (statusCode, message, data = {}, res) => {
   return res.status(statusCode).json({ message, ...data });

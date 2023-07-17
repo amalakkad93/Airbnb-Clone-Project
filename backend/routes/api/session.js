@@ -11,6 +11,14 @@ const { handleValidationErrors } = require("../../utils/validation");
 
 const router = express.Router();
 
+const authCatch=(err,req,res,next)=>{
+  res.status(401)
+  .setHeader('Content-Type','application/json')
+  .json({
+      message: "Authentication required"
+    })
+  }
+
 const validateLogin = [
   check("credential")
     .exists({ checkFalsy: true })
@@ -45,9 +53,11 @@ router.post("/", async (req, res, next) => {
 
   const safeUser = {
     id: user.id,
+    firstName: user.firstName,
+    lastName: user.lastName,
     email: user.email,
     username: user.username,
-  };
+};
 
   await setTokenCookie(res, safeUser);
 
