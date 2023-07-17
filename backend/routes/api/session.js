@@ -11,13 +11,7 @@ const { handleValidationErrors } = require("../../utils/validation");
 
 const router = express.Router();
 
-const authCatch=(err,req,res,next)=>{
-  res.status(401)
-  .setHeader('Content-Type','application/json')
-  .json({
-      message: "Authentication required"
-    })
-  }
+
 
 const validateLogin = [
   check("credential")
@@ -31,7 +25,7 @@ const validateLogin = [
 ];
 
 // Log in
-router.post("/", async (req, res, next) => {
+router.post("/", validateLogin, async (req, res, next) => {
   const { credential, password } = req.body;
 
   const user = await User.unscoped().findOne({
