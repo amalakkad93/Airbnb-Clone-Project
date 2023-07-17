@@ -123,6 +123,14 @@ const queryParamValidationErrors = (err, req, res, next) => {
   next();
 };
 
+const authCatch=(err,req,res,next)=>{
+  res.status(401)
+  .setHeader('Content-Type','application/json')
+  .json({
+      message: "Authentication required"
+    })
+  }
+
 //***********************************
 
 const errorResponse403 = (err, req, res, next) => {
@@ -133,6 +141,16 @@ const errorResponse403 = (err, req, res, next) => {
 
 //***********************************
 
+const displayvaldErr = (err, req, res, next) => {
+
+  res.status(400)
+  res.setHeader('Content-Type', 'application/json')
+  res.json({
+      message: "Bad Request",
+      errors: err.errors
+  })
+}
+//******************************************************** */
 const createErrorHandler = (statusCode, message, data = {}, res) => {
   return res.status(statusCode).json({ message, ...data });
 };
@@ -249,12 +267,13 @@ router.post("/:spotId/images", requireAuth, async (req, res) => {
     return createErrorHandler(404, "Spot couldn't be found", {}, res);
 
   } else if (spot && spot.ownerId !== req.user.id) {
-    next(err)
+    return createErrorHandler(403, "Forbidden", {}, res);
   }
-}, errorResponse403);
+});
+
 
 //======== Edit a Spot ========
-router.put("/:spotId", requireAuth, validateSpot, async (req, res) => {
+router.put("/:spotId", requireAuth, validateSpot, displayvaldErr, async (req, res) => {
 
   const spotId = req.params.spotId;
 
