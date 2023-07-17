@@ -16,13 +16,16 @@ const errorResponse403 = (err, req, res, next) => {
       .setHeader('Content-Type', 'application/json')
       .json({ message: 'Forbidden' })
 }
+
+const createErrorHandler = (statusCode, message, data = {}, res) => {
+  return res.status(statusCode).json({ message, ...data });
+};
 //********************************************************
 
 // Delete a Review Image
 router.delete('/:imageId', requireAuth, async (req, res) => {
   const imageId = req.params.imageId;
-  const { user } = req;
-
+  
   const findReviewImage = await ReviewImage.findOne({
     where: { id: imageId },
     include: [
@@ -33,12 +36,13 @@ router.delete('/:imageId', requireAuth, async (req, res) => {
     ]
   })
 
-  if(!findReviewImage) return res.status(404).json({ message: "Review Image couldn't be found" })
+
+  if(!findReviewImage) return createErrorHandler(404, "Review Image couldn't be found", {}, res);
 
   if(findReviewImage && findReviewImage.Review.userId !== req.user.id) next(err)
 
   const deletedReviewImage = await ReviewImage.destroy({ where: { id: imageId } })
-  
+
   if(deletedReviewImage) return res.status(200).json({ message: "Successfully deleted" })
 
 }, errorResponse403)

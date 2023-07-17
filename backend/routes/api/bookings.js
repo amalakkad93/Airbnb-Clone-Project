@@ -11,21 +11,6 @@ const { json } = require("sequelize");
 const { Op } = require('sequelize');
 
 
-const validateBooking = [
-  check("startDate")
-    .exists({ checkFalsy: true }),
-  check("endDate")
-    .isAfter(new Date().toISOString())
-    .withMessage("endDate cannot come before startDate"),
-  handleValidationErrors,
-];
-
-const errorResponse403 = (err, req, res, next) => {
-  res.status(403)
-      .setHeader('Content-Type', 'application/json')
-      .json({ message: 'Forbidden' })
-}
-
 const createErrorHandler = (statusCode, message, data = {}, res) => {
   return res.status(statusCode).json({ message, ...data });
 };

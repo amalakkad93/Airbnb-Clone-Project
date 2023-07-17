@@ -17,32 +17,32 @@ module.exports = {
       },
       spotId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        // allowNull: false,
         references: { model: 'Spots' },
         onDelete: 'CASCADE',
         hooks: true
       },
       userId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        // allowNull: false,
         references: { model: 'Users' },
         onDelete: 'CASCADE',
         hooks: true
       },
       review: {
         type: Sequelize.STRING,
-        allowNull: false
+        // allowNull: false
       },
       stars: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        // allowNull: false
       },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
       },
       updatedAt: {
-        allowNull: false,
+        // allowNull: false,
         type: Sequelize.DATE
       }
     }, options);
