@@ -206,21 +206,23 @@ router.post('/', requireAuth, validateSpot, async (req, res) => {
 
     const spot = await Spot.create({ ownerId: user.id, address, city, state, country, lat, lng, name, description, price });
 
-    const newSpot = {
-      id: spot.id,
-      ownerId: spot.ownerId,
-      address: spot.address,
-      city: spot.city,
-      state: spot.state,
-      country: spot.country,
-      lat: spot.lat,
-      lng: spot.lng,
-      name: spot.name,
-      description: spot.description,
-      price: spot.price,
-    };
+    // const newSpot = {
+    //   id: spot.id,
+    //   ownerId: spot.ownerId,
+    //   address: spot.address,
+    //   city: spot.city,
+    //   state: spot.state,
+    //   country: spot.country,
+    //   lat: spot.lat,
+    //   lng: spot.lng,
+    //   name: spot.name,
+    //   description: spot.description,
+    //   price: spot.price,
+    // };
 
-    res.json(newSpot);
+    // res.json(newSpot);
+    res.status(201)
+    res.json(spot);
 
   } else {
     return createErrorHandler(400, "Forbidden", {}, res);
