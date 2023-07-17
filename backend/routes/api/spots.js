@@ -375,32 +375,34 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
 
   let bookings;
   if (spot.ownerId === req.user.id) {
-    bookings = await Booking.findAll({
-      where: { spotId: req.params.spotId },
-      include: { model: User, attributes: ['id', 'firstName', 'lastName'] }
-    });
-  } else {
-    bookings = await Booking.findAll({
-      where: { spotId: req.params.spotId },
-      attributes: ['spotId', 'startDate', 'endDate'],
-      include: { model: User, attributes: ['id', 'firstName', 'lastName'] }
-    });
+
+        bookings = await Booking.findAll({
+          where: { spotId: req.params.spotId },
+          // attributes: ['spotId', 'startDate', 'endDate'],
+          include: { model: User, attributes: ['id', 'firstName', 'lastName'] }
+        });
+
+      } else {
+        bookings = await Booking.findAll({
+          where: { spotId: req.params.spotId },
+          attributes: ['spotId', 'startDate', 'endDate'],
+        });
   }
 
-  const bookingLists = bookings.map((booking) => {
-    return {
-      User: booking.User,
-      id: booking.id,
-      spotId: booking.spotId,
-      userId: booking.userId,
-      startDate: booking.startDate,
-      endDate: booking.endDate,
-      createdAt: booking.createdAt,
-      updatedAt: booking.updatedAt
-    };
-  });
+  // const bookingLists = bookings.map((booking) => {
+  //   return {
+  //     User: booking.User,
+  //     id: booking.id,
+  //     spotId: booking.spotId,
+  //     userId: booking.userId,
+  //     startDate: booking.startDate,
+  //     endDate: booking.endDate,
+  //     createdAt: booking.createdAt,
+  //     updatedAt: booking.updatedAt
+  //   };
+  // });
 
-  res.json({ Bookings: bookingLists });
+  res.json({ Bookings: bookings });
 });
 
 //======== Create a Booking from a Spot based on the Spot's id ========
