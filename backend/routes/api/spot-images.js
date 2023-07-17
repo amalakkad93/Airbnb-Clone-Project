@@ -29,7 +29,7 @@ const errorResponse403 = (err, req, res, next) => {
 //********************************************************
 
 // Delete a Spot Image
-router.delete('/:imageId', requireAuth, async (req, res) => {
+router.delete('/:imageId', requireAuth, errorAuth,async (req, res) => {
   const imageId = req.params.imageId;
   const { user } = req;
 

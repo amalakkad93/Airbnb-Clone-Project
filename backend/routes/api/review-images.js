@@ -41,7 +41,7 @@ const createErrorHandler = (statusCode, message, data = {}, res) => {
 //********************************************************
 
 // Delete a Review Image
-router.delete('/:imageId', requireAuth, async (req, res) => {
+router.delete('/:imageId', requireAuth, errorAuth, async (req, res) => {
   const imageId = req.params.imageId;
 
   const findReviewImage = await ReviewImage.findOne({
