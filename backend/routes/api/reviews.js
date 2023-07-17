@@ -19,6 +19,16 @@ const errorAuth = function (err, req, res, next) {
   );
 };
 
+const displayvaldErr = (err, req, res, next) => {
+
+  res.status(400)
+  res.setHeader('Content-Type', 'application/json')
+  res.json({
+      message: "Bad Request",
+      errors: err.errors
+  })
+}
+
 const validateReview = [
   check('review')
       .exists({ checkFalsy: true })
@@ -96,11 +106,11 @@ router.post("/:reviewId/images", requireAuth, async (req, res) => {
   if (review.userId !== req.user.id) return createErrorHandler(403, "Forbidden", {}, res);
   if (review.ReviewImages.length > 10) return createErrorHandler(403, "Maximum number of images for this resource was reached", {}, res);
   const reviewImage = await ReviewImage.create({ reviewId: review.id, url: image });
-  res.json(reviewImage);
+  res.json({id: reviewImage.id, url: reviewImage.url});
 });
 
 // ======== Edit a Review ========
-router.put("/:reviewId", requireAuth, validateReview, errorAuth, async (req, res) => {
+router.put("/:reviewId", requireAuth, errorAuth, validateReview, displayvaldErr, async (req, res) => {
 
   const reviewId = req.params.reviewId;
 
@@ -108,15 +118,15 @@ router.put("/:reviewId", requireAuth, validateReview, errorAuth, async (req, res
   const reviews = await Review.findOne({ where: { id: reviewId } });
 
   if(!reviews) return createErrorHandler(404, "Review couldn't be found", {}, res);
-  else if (reviews && reviews.userId !== req.user.id) next(err);
+  else if (reviews && reviews.userId != req.user.id) next(err);
 
-  const updatedReview = await review.update({ review, stars });
-  res.json(updatedReview);
+  const updatedReview = await reviews.update({ review, stars });
+  return res.json(updatedReview);
 
 }, errorResponse403);
 
 //======== Delete a Review ========
-router.delete('/:spotId', requireAuth, async (req, res) => {
+router.delete('/:reviewId', requireAuth, async (req, res) => {
   const reviewId = req.params.reviewId;
   const { user } = req;
 
