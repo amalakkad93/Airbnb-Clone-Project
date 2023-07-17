@@ -11,6 +11,15 @@ const { json } = require("sequelize");
 
 
 //*********************handleErrorResponse******************
+const errorAuth = function (err, req, res, next) {
+  res.status(401);
+  res.setHeader('Content-Type','application/json')
+  res.json(
+      {
+          message: "Authentication required"
+        }
+  );
+};
 
 const authCatch=(err,req,res,next)=>{
   res.status(401)
@@ -19,7 +28,7 @@ const authCatch=(err,req,res,next)=>{
       message: "Authentication required"
     })
   }
-  
+
 const errorResponse403 = (err, req, res, next) => {
   res.status(403)
       .setHeader('Content-Type', 'application/json')
@@ -32,7 +41,7 @@ const createErrorHandler = (statusCode, message, data = {}, res) => {
 //********************************************************
 
 // Delete a Review Image
-router.delete('/:imageId', requireAuth, async (req, res) => {
+router.delete('/:imageId', requireAuth, errorAuth, async (req, res) => {
   const imageId = req.params.imageId;
 
   const findReviewImage = await ReviewImage.findOne({

@@ -10,19 +10,21 @@ const spot = require("../../db/models/spot");
 const { json } = require("sequelize");
 const { Op } = require('sequelize');
 
-const authCatch=(err,req,res,next)=>{
-  res.status(401)
-  .setHeader('Content-Type','application/json')
-  .json({
-      message: "Authentication required"
-    })
-  }
+const errorAuth = function (err, req, res, next) {
+  res.status(401);
+  res.setHeader('Content-Type','application/json')
+  res.json(
+      {
+          message: "Authentication required"
+        }
+  );
+};
 
 const createErrorHandler = (statusCode, message, data = {}, res) => {
   return res.status(statusCode).json({ message, ...data });
 };
 
-router.get("/current", requireAuth, async (req, res) => {
+router.get("/current", requireAuth, errorAuth, async (req, res) => {
   const allBookings = await Booking.findAll({
       where: { userId: req.user.id },
       include: [
@@ -62,7 +64,7 @@ router.get("/current", requireAuth, async (req, res) => {
 });
 
 //======== Edit a Booking ========
-router.put("/:bookingId", requireAuth, async (req, res, next) => {
+router.put("/:bookingId", requireAuth, errorAuth, async (req, res, next) => {
   const { startDate, endDate } = req.body;
 
   const bookingId = req.params.bookingId;
@@ -109,7 +111,7 @@ router.put("/:bookingId", requireAuth, async (req, res, next) => {
 });
 
 //======== Delete a Booking ========
-router.delete('/:bookingId', requireAuth, async (req, res, next) => {
+router.delete('/:bookingId', requireAuth, errorAuth, async (req, res, next) => {
   const bookingId = req.params.bookingId;
   const { user } = req;
   const bookingOwner = await  Booking.findByPk(bookingId)

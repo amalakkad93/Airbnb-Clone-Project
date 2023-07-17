@@ -9,13 +9,15 @@ const { handleValidationErrors } = require("../../utils/validation");
 const spot = require("../../db/models/spot");
 const { json } = require("sequelize");
 
-const authCatch=(err,req,res,next)=>{
-  res.status(401)
-  .setHeader('Content-Type','application/json')
-  .json({
-      message: "Authentication required"
-    })
-  }
+const errorAuth = function (err, req, res, next) {
+  res.status(401);
+  res.setHeader('Content-Type','application/json')
+  res.json(
+      {
+          message: "Authentication required"
+        }
+  );
+};
 
 const validateReview = [
   check('review')
@@ -39,7 +41,7 @@ const createErrorHandler = (statusCode, message, data = {}, res) => {
 
 
 // ======== Get all Reviews of the Current User ========
-router.get("/current", requireAuth, async (req, res) => {
+router.get("/current", requireAuth, errorAuth, async (req, res) => {
   const reviewList = await Review.findAll({
     include: [
       {
@@ -81,7 +83,7 @@ router.get("/current", requireAuth, async (req, res) => {
 });
 
 // ======== Add an Image to a Review based on the Review's id ========
-router.post("/:reviewId/images", requireAuth, async (req, res) => {
+router.post("/:reviewId/images", requireAuth, errorAuth, async (req, res) => {
   const { url, preview } = req.body;
   const image = req.body.url;
   const reviewId = req.params.reviewId;
@@ -98,7 +100,7 @@ router.post("/:reviewId/images", requireAuth, async (req, res) => {
 });
 
 // ======== Edit a Review ========
-router.put("/:reviewId", requireAuth, validateReview, async (req, res) => {
+router.put("/:reviewId", requireAuth, validateReview, errorAuth, async (req, res) => {
 
   const reviewId = req.params.reviewId;
 
@@ -114,7 +116,7 @@ router.put("/:reviewId", requireAuth, validateReview, async (req, res) => {
 }, errorResponse403);
 
 //======== Delete a Review ========
-router.delete('/:spotId', requireAuth, async (req, res) => {
+router.delete('/:spotId', requireAuth, errorAuth, async (req, res) => {
   const reviewId = req.params.reviewId;
   const { user } = req;
 

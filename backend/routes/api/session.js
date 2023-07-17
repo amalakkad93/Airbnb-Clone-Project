@@ -11,6 +11,15 @@ const { handleValidationErrors } = require("../../utils/validation");
 
 const router = express.Router();
 
+const errorAuth = function (err, req, res, next) {
+  res.status(401);
+  res.setHeader('Content-Type','application/json')
+  res.json(
+      {
+          message: "Authentication required"
+        }
+  );
+};
 
 
 const validateLogin = [

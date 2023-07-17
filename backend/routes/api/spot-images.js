@@ -10,6 +10,16 @@ const spot = require("../../db/models/spot");
 const { json } = require("sequelize");
 const { Op } = require('sequelize');
 
+const errorAuth = function (err, req, res, next) {
+  res.status(401);
+  res.setHeader('Content-Type','application/json')
+  res.json(
+      {
+          message: "Authentication required"
+        }
+  );
+};
+
 //*********************handleErrorResponse******************
 const errorResponse403 = (err, req, res, next) => {
   res.status(403)
@@ -19,7 +29,7 @@ const errorResponse403 = (err, req, res, next) => {
 //********************************************************
 
 // Delete a Spot Image
-router.delete('/:imageId', requireAuth, async (req, res) => {
+router.delete('/:imageId', requireAuth, errorAuth, async (req, res) => {
   const imageId = req.params.imageId;
   const { user } = req;
 
