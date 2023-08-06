@@ -207,6 +207,7 @@ router.get('/current', requireAuth, async (req, res) => {
 
   let spotsList = processSpots(spots)
   res.json(spotsList);
+  // res.json({Spots: spotsList})
 })
 
 // ======== Get details of a Spot from an id ========
@@ -254,8 +255,8 @@ router.get('/:spotId', async (req, res) => {
 
 //======== Create a Spot ========
 router.post('/', requireAuth, validateSpot, async (req, res) => {
-  const { user } = req;
   const { address, city, state, country, lat, lng, name, description, price } = req.body;
+  const { user } = req;
   if(user) {
 
     const spot = await Spot.create({ ownerId: user.id, address, city, state, country, lat, lng, name, description, price });

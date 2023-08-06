@@ -1,15 +1,20 @@
 // frontend/src/components/Navigation/ProfileButton.js
+// frontend/src/components/Navigation/ProfileButton.js
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from 'react-redux';
 import * as sessionActions from '../../store/session';
 import OpenModalMenuItem from './OpenModalMenuItem';
 import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
-
+import { useHistory } from "react-router-dom";
+// import "./Navigation.css";
+// import "./ProfileButton.css";
+import "./Nav2.css"
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
+  const history = useHistory();
 
   const openMenu = () => {
     if (showMenu) return;
@@ -42,6 +47,8 @@ function ProfileButton({ user }) {
 
   return (
     <>
+    <div className="profile-dropdown-container">
+
       <button onClick={openMenu}>
         <i className="fas fa-user-circle" />
       </button>
@@ -51,25 +58,38 @@ function ProfileButton({ user }) {
             <li>{user.username}</li>
             <li>{user.firstName} {user.lastName}</li>
             <li>{user.email}</li>
-            <li>
-              <button onClick={logout}>Log Out</button>
-            </li>
+            <li><button className="Manage-spot-button" onClick={ (e) => {history.push('/owner/spots')}}>Manage Spots</button></li>
+            <li><button onClick={logout} className="buttons">Log Out</button></li>
           </>
         ) : (
           <>
+          <li>
             <OpenModalMenuItem
               itemText="Log In"
               onItemClick={closeMenu}
               modalComponent={<LoginFormModal />}
-            />
+              />
+          </li>
+          <li>
             <OpenModalMenuItem
               itemText="Sign Up"
               onItemClick={closeMenu}
               modalComponent={<SignupFormModal />}
-            />
+              />
+          </li>
+          <li>
+          <button className="buttons" onClick={(e) =>{
+            const credential = "Demo-lition"
+            const password = "password"
+            closeMenu()
+            return dispatch(sessionActions.login({credential, password}))
+          }}>Demo User</button>
+          </li>
+
           </>
         )}
       </ul>
+    </div>
     </>
   );
 }

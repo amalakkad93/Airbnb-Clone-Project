@@ -44,20 +44,21 @@ function SignupFormModal() {
 
   return (
     <>
-      <h1>Sign Up</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Email
+      {/* <h1>Sign Up</h1> */}
+      <form onSubmit={handleSubmit} className="spot-form">
+        <label className="label-signup">
+        <div class="label-title">Email</div>
           <input
             type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
+
         </label>
         {errors.email && <p>{errors.email}</p>}
-        <label>
-          Username
+        <label className="label-signup">
+          <div>Username</div>
           <input
             type="text"
             value={username}
@@ -66,8 +67,8 @@ function SignupFormModal() {
           />
         </label>
         {errors.username && <p>{errors.username}</p>}
-        <label>
-          First Name
+        <label className="label-signup">
+          <div>First Name</div>
           <input
             type="text"
             value={firstName}
@@ -76,8 +77,8 @@ function SignupFormModal() {
           />
         </label>
         {errors.firstName && <p>{errors.firstName}</p>}
-        <label>
-          Last Name
+        <label className="label-signup">
+          <div>Last Name</div>
           <input
             type="text"
             value={lastName}
@@ -86,8 +87,8 @@ function SignupFormModal() {
           />
         </label>
         {errors.lastName && <p>{errors.lastName}</p>}
-        <label>
-          Password
+        <label className="label-signup">
+          <div>Password</div>
           <input
             type="password"
             value={password}
@@ -96,8 +97,8 @@ function SignupFormModal() {
           />
         </label>
         {errors.password && <p>{errors.password}</p>}
-        <label>
-          Confirm Password
+        <label className="label-signup">
+          <div>Confirm Password</div>
           <input
             type="password"
             value={confirmPassword}
