@@ -71,7 +71,7 @@ export default function GetAllSpots() {
       {/* <div className="spots-box"> */}
       <div className="spots-box">
         {spotArr.map((spot) => (
-          <Link to={`/spots/${spot.id}`}>
+          <Link to={`/spots/${spot.id}`} className="no-underline">
             <div className="spot-box">
               <img
                 src={spot.previewImage}

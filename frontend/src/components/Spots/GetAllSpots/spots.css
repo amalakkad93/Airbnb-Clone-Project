@@ -12,6 +12,7 @@
   align-items: center;
   margin: 1rem;
   margin-bottom: 2rem;
+  color: black;
 
 }
 
@@ -22,6 +23,7 @@
   /* align-items: center; */
   margin: 1rem;
   margin-bottom: 2rem;
+  color: black;
  }
 
 .spot-img {
@@ -47,6 +49,7 @@
 .spot-city-state-rating {
   display: flex;
   justify-content: space-between;
+  color: black
   /* align-items: flex-start; */
 }
 
@@ -54,6 +57,12 @@
   /* display: flex;
   align-items: center;
   gap: 0.25rem; */
+  color: black;
+}
+.no-underline {
+  text-decoration: none;
+
+
 }
 
 /* .spot-box .swiper-pagination-bullet-active {

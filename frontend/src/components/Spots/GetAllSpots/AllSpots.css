@@ -14,6 +14,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 10px;
   background-color: #fff;
+  color: black;
 
 }
 
@@ -33,6 +34,8 @@
 .spot-city-state-rating {
   width: 100%;
   text-decoration: none;
+  display: flex;
+  flex-direction: column;
 }
 
 .spot-city-state-rating p {
@@ -53,6 +56,9 @@
   text-decoration: none;
 }
 
+.no-underline {
+  text-decoration: none;
+}
 
 
 
