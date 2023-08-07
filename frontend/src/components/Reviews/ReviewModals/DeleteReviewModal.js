@@ -19,14 +19,14 @@ function DeleteReviewModal({ reviewId }) {
 
   return (
     <>
-      <div className='tile-parent'>
+      <div className='tile-parent1'>
         <h1>Confirm Delete</h1>
         <p>Are you sure you want to delete this review?</p>
         {/* <button onClick={deleteReviewCallBack}>Delete</button>
         <button onClick={closeModal}>Cancel</button> */}
         <div className="modal__buttons">
-          <button onClick={deleteReviewCallBack}>Yes (Delete Review)</button>
-          <button onClick={closeModal}>No (Keep Review)</button>
+          <button className='delete-btn' onClick={deleteReviewCallBack}>Yes (Delete Review)</button>
+          <button className='cancel-btn' onClick={closeModal}>No (Keep Review)</button>
         </div>
       </div>
     </>

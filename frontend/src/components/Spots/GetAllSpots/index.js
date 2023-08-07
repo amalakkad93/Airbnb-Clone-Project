@@ -67,7 +67,7 @@ export default function GetAllSpots() {
   // only use map inside do not use forEach
   return (
     <>
-      <h1>Home Page</h1>
+      {/* <h1>Home Page</h1> */}
       {/* <div className="spots-box"> */}
       <div className="spots-box">
         {spotArr.map((spot) => (
