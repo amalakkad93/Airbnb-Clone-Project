@@ -32,10 +32,6 @@ export default function SpotDetail() {
   const [reloadPage, setReloadPage] = useState(false);
 
   const [showCreateReviewForm, setShowCreateReviewForm] = useState(false);
-  console.log("************************************Reviews = ", reviews);
-
-  // const avgRating = spot.Reviews.reduce((sum, review) => sum + review.stars, 0) / spot.Reviews.length;
-  // const avgRating = spot.avgStarRating.toFixed(1);
   const avgRating = spot.avgStarRating ? spot.avgStarRating.toFixed(1) : "N/A";
   const numberOfReviews = spot.numReviews;
 
@@ -48,11 +44,7 @@ export default function SpotDetail() {
   useEffect(() => {
     dispatch(getSpotDetailThunk(spotId));
     dispatch(getAllReviewsThunk(spotId));
-
-
   }, [dispatch, spotId, reloadPage]);
-
-  // const spotImagesPreviewFalse = spot.spotImages.filter((image) => image.preview === false);
 
   if (!spot.id) return null;
   if (!spot) {
@@ -65,13 +57,6 @@ export default function SpotDetail() {
     setRating(newRating);
   };
 
-  // console.log("*********Reviews = ", reviews)
-  // console.log("*********avg = ", typeof spot.avgStarRating)
-  // if(!reviews) return null
-
-  if (!reviews || reviews.length === 0) {
-    return <p>No reviews available for this spot.</p>;
-  }
 
   return (
     <>
@@ -130,6 +115,7 @@ export default function SpotDetail() {
           <h2>{`⭐ ${avgRating} · ${numberOfReviews} reviews`}</h2>
           <OpenModalButton buttonText="Post Your Review" modalComponent={<CreateReviewModal spotId={spot.id } setReloadPage={setReloadPage} />} />
         </div>
+       
         {reviews.length >= 1 &&
           reviews.map((review, index) => (
             <div className="review-item" key={index}>

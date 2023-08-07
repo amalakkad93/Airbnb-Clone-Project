@@ -6,6 +6,7 @@ import { getAllReviewsThunk, createReview } from "../../../store/reviews";
 import './Reviews.css';
 import OpenModalButton from "../../OpenModalButton";
 import CreateReviewModal from "../ReviewModals/CreateReviewModal";
+import DeleteReviewModal from "../ReviewModals/DeleteReviewModal";
 // import StarsRatingInput from "./StarsRatingInput";
 import {createReviewThunk } from '../../../store/reviews';
 

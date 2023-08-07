@@ -1,3 +1,51 @@
+// import { useEffect, useState } from "react";
+// import { useDispatch, useSelector } from "react-redux";
+// import { getAllSpotsThunk } from "../../../store/spots";
+// import { Link } from "react-router-dom";
+// import "./spots.css";
+
+// export default function GetAllSpots() {
+//   const spots = useSelector((state) => state.spots.allSpots);
+//   const spotArr = Object.values(spots);
+//   const dispatch = useDispatch();
+
+
+//   useEffect(() => {
+//     // dispatch inside the thunk
+//     dispatch(getAllSpotsThunk()); // -> [{}, ...]
+//   }, [dispatch]);
+
+//   // only use map inside do not use forEach
+//   return (
+//     <>
+//       {/* <h1>Home Page</h1> */}
+//       <div className="spots-main-container">
+//         <ul className="spots-box">
+//           {spotArr.map((spot) => (
+//             <li key={spot.id} className="spot-box">
+//               <Link to={`/spots/${spot.id}`}>
+//                 <img
+//                   src={spot.previewImage}
+//                   className="spot-img"
+//                   alt={spot.name}
+//                 />
+//               </Link>
+
+//             </li>
+//         </ul>
+
+//       </div>
+
+//     </>
+//   );
+// }
+// // after we dispatch...
+// if(returnFromFetch.errors){
+//   setErrors(returnFromFetch.errors)
+// } else {
+//   history.push(`/spots`)
+// }
+
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllSpotsThunk } from "../../../store/spots";
@@ -48,7 +96,7 @@ export default function GetAllSpots() {
     </>
   );
 }
-// // after we dispatch...
+// after we dispatch...
 // if(returnFromFetch.errors){
 //   setErrors(returnFromFetch.errors)
 // } else {

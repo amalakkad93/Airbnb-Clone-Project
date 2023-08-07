@@ -25,6 +25,7 @@ export default function SpotForm({ formType, spotId }) {
   const [imageUrl3, setImageUrl3] = useState('');
   const [imageUrl4, setImageUrl4] = useState('');
   const [imageUrl5, setImageUrl5] = useState('');
+  const [reloadPage, setReloadPage] = useState(false);
   const [validationObj, setValidationObj] = useState({});
   const history = useHistory();
   const sessionUser = useSelector((state) => state.session.user);
@@ -70,10 +71,14 @@ export default function SpotForm({ formType, spotId }) {
     }
 
     if (formType === 'Edit') {
-
+      console.log("********I am in Edit spot form*******", spotId)
       // spotEdit = await dispatch(updateSpotThunk());
       try {
+        console.log("***************", spotId)
         const updatedSpot = { id: spotId, address, city, state, country, lat, lng, name, description, price };
+        // const updatedSpot = { address, city, state, country, lat, lng, name, description, price };
+        // console.log("***************", updatedSpot)
+
         const updatedSpotData = await dispatch(updateSpotThunk(updatedSpot));
         if (updatedSpotData) {
           // history.push(`/spots/${spotId}`);
@@ -84,7 +89,6 @@ export default function SpotForm({ formType, spotId }) {
         console.error("****************Error updating spot:", error.message);
       }
     }
-
 
   };
 
@@ -108,7 +112,6 @@ export default function SpotForm({ formType, spotId }) {
 
   useEffect(() => {
     if (formType === 'Edit') {
-
       dispatch(getSpotDetailThunk(spotId))
     .then(data => {
       console.log("***************", data)
@@ -131,6 +134,7 @@ export default function SpotForm({ formType, spotId }) {
     }
   };
 
+  // if(!spotEdit) return null;
 
   return (
     <div className="form-container">

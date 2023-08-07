@@ -59,6 +59,7 @@ function ProfileButton({ user }) {
             <li>{user.firstName} {user.lastName}</li>
             <li>{user.email}</li>
             <li><button className="Manage-spot-button" onClick={ (e) => {history.push('/owner/spots')}}>Manage Spots</button></li>
+            <li><button type="button" onClick={(e)=>{ history.push('/reviews/current') }}>Manage Reviews</button></li>
             <li><button onClick={logout} className="buttons">Log Out</button></li>
           </>
         ) : (
@@ -85,7 +86,6 @@ function ProfileButton({ user }) {
             return dispatch(sessionActions.login({credential, password}))
           }}>Demo User</button>
           </li>
-
           </>
         )}
       </ul>

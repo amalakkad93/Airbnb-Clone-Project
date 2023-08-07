@@ -1,21 +1,24 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap");
+
+.spots-main-container {
+
+}
 .spots-box {
   display: grid;
-  grid-auto-flow: column
-  /* display: flex; */
-  /* justify-content: center; */
-  /* align-items: center; */
-  /* flex-wrap: wrap; */
-  /* padding: 1rem 3rem; */
-
-  /* display: flex;
-  flex-direction: row;
+  grid-auto-flow: column;
+  flex: 25%;
   flex-wrap: wrap;
-  width: 100%; */
+  list-style-type: none;
+  align-items: center;
+  margin: 1rem;
+  margin-bottom: 2rem;
+
 }
 
 .spot-box {
   flex: 25%;
+  flex-wrap: wrap;
+  list-style-type: none;
   align-items: center;
   margin: 1rem;
   margin-bottom: 2rem;
