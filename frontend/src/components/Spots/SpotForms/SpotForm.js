@@ -191,7 +191,11 @@ export default function SpotForm({ formType, spotId }) {
         {/* **************************************************************** */}
 
         <div>
-          <div className="div-title">Street Address</div>
+        <div className="error-container">
+          <p>Street Address</p>
+          {validationObj.address && <p className="errors">{validationObj.address}</p>}
+        </div>
+          <div className="div-title"></div>
           <label htmlFor="Address" className="label"></label>
           {}
 
@@ -229,12 +233,20 @@ export default function SpotForm({ formType, spotId }) {
             onChange={(e) => setDescription(e.target.value)}
             className={formType === 'Edit' ? 'edit-form-textarea' : ''}
           />
+          <div className="error-container">
+
+          {validationObj.description && <p className="errors">{validationObj.description}</p>}
+        </div>
         </div>
         <div>
           <div className="div-title">Create a title for your spot</div>
+
           <label htmlFor="Name" className="label"></label>
           <input type="text" id="name" placeholder="Name of your spot" value={name} onChange={(e) => setName(e.target.value)} />
+                {validationObj.name && <p className="errors">{validationObj.name}</p>}
+
         </div>
+
         <div>
           <div className="div-title">Set a base price for your spot</div>
           <label htmlFor="Price" className="label"></label>
@@ -242,6 +254,7 @@ export default function SpotForm({ formType, spotId }) {
             <div>$</div>
             <input type="text" id="price" placeholder="Price per night (USD)" value={price} onChange={(e) => setPrice(e.target.value)} />
           </div>
+            {validationObj.price && <p className="errors">{validationObj.price}</p>}
         </div>
         {formType === 'Create' && (
           <div className="form-image-input">
