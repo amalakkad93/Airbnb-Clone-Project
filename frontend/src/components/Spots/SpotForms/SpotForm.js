@@ -65,9 +65,9 @@ export default function SpotForm({ formType, spotId }) {
 
     if (formType === 'Create') {
       const newlyCreateSpot = await dispatch(createSpotThunk(newSpot, newSpotImage, sessionUser));
-      if (newlyCreateSpot) {
+      if (newlyCreateSpot.id) {
         history.push(`/spots/${newlyCreateSpot.id}`);
-      }
+      } else return null;
     }
 
     if (formType === 'Edit') {
@@ -83,16 +83,13 @@ export default function SpotForm({ formType, spotId }) {
         if (updatedSpotData) {
           // history.push(`/spots/${spotId}`);
           history.push(`/spots/${updatedSpotData.id}`);
-        }
+        } else return null;
 
       } catch (error) {
         console.error("****************Error updating spot:", error.message);
       }
     }
 
-  };
-
-  useEffect(() => {
     const errorsObj = {};
     if (formType === 'Create') {
       if (!address) errorsObj.address = 'Address is required';
@@ -108,7 +105,26 @@ export default function SpotForm({ formType, spotId }) {
 
       setValidationObj(errorsObj);
     }
-  }, [address, city, state, country, lat, lng, name, description, price, previewImage]);
+
+  };
+
+  // useEffect(() => {
+  //   const errorsObj = {};
+  //   if (formType === 'Create') {
+  //     if (!address) errorsObj.address = 'Address is required';
+  //     if (!city) errorsObj.city = 'City is required';
+  //     if (!state) errorsObj.state = 'State is required';
+  //     if (!country) errorsObj.country = 'Country is required';
+  //     if (!lat) errorsObj.lat = 'Latitude is required';
+  //     if (!lng) errorsObj.lng = 'Longitude is required';
+  //     if (!name) errorsObj.name = 'Name is required';
+  //     if (!description) errorsObj.description = 'Description is required';
+  //     if (!price) errorsObj.price = 'Price is required';
+  //     if (!previewImage) errorsObj.previewImage = 'Preview Image is required';
+
+  //     setValidationObj(errorsObj);
+  //   }
+  // }, [address, city, state, country, lat, lng, name, description, price, previewImage]);
 
   useEffect(() => {
     if (formType === 'Edit') {
@@ -229,7 +245,7 @@ export default function SpotForm({ formType, spotId }) {
         {formType === 'Create' && (
           <div className="form-image-input">
             <div>
-              <label htmlFor="imageUrl1"></label>
+              <label htmlFor="previewImage"></label>
               <input
                 type="url"
                 id="imageUrl1"

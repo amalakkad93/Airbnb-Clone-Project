@@ -19,7 +19,7 @@
   flex: 25%;
   flex-wrap: wrap;
   list-style-type: none;
-  align-items: center;
+  /* align-items: center; */
   margin: 1rem;
   margin-bottom: 2rem;
  }
@@ -47,7 +47,7 @@
 .spot-city-state-rating {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  /* align-items: flex-start; */
 }
 
 .spot-rating {

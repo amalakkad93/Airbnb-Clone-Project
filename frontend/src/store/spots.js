@@ -291,53 +291,6 @@ export const getAllSpots = state => state?.spots ? Object.values(state.spots) : 
 console.log("************************************getAllSpots", getAllSpots);
 export const getSpot = spotId => state => state?.spots ? state.spots[spotId] : null;
 
-// export const fetchSpots = () => async (dispatch) => {
-//   const req = await fetch('/api/spots');
-//   const data = await req.json();
-//   const spots = data;
-//   const reviews = {};
-//   for (let spot of spots) {
-//     if ('Reviews' in spot) {
-//       for (let review of spot.Reviews) {
-//         reviews[review.id] = review;
-//       }
-//       delete spot.Reviews;
-//     }
-//   }
-//   dispatch(getSpots(spots));
-//   dispatch(getReviews(reviews));
-//   return { spots, reviews };
-// };
-
-
-
-// export const fetchSpots = () => async (dispatch) => {
-//   try {
-//     const req = await fetch('/api/spots');
-//     const data = await req.json();
-//     const spots = data;
-
-//     // Extract and organize reviews separately
-//     const reviews = {};
-//     for (let spot of spots) {
-//       if ('Reviews' in spots) {
-//         for (let review of spot.Reviews) {
-//           reviews[review.id] = review;
-//         }
-//         delete spot.Reviews;
-//       }
-//     }
-
-//     dispatch(getSpots(data));
-//     dispatch(getAllReviews(reviews));
-
-//     return { spots: data, reviews };
-//   } catch (err) {
-//     console.error("Error fetching spots:", err.message);
-//     throw err;
-//   }
-// };
-
 
 // ************************************************
 //                   ****Thunks****
@@ -374,36 +327,36 @@ export const createSpotThunk = (newSpot, newSpotImage, sessionUser) => async (di
 }
 
 // ***************************getSpotDetailThunk***************************
-// export const getSpotDetailThunk = (spotId) => async (dispatch) => {
-//   const res = await csrfFetch(`/api/spots/${spotId}`);
-//   if (res.ok) {
-//     const spot = await res.json();
-//     // console.log("spot data FROM getSpotDetailThunk:", spot);
-//     dispatch(getSingleSpot(spot));
-//     return spot;
-//   }else {
-//     const errors = await res.json();
-//     return errors;
-//   }
-// };
 export const getSpotDetailThunk = (spotId) => async (dispatch) => {
-  try {
-    const res = await csrfFetch(`/api/spots/${spotId}`);
-
-    // if (!res.ok) {
-    //   const errors = await res.json();
-    //   throw new Error(errors.message || "================Failed to get spot details=============");
-    // }
-
+  const res = await csrfFetch(`/api/spots/${spotId}`);
+  if (res.ok) {
     const spot = await res.json();
+    // console.log("spot data FROM getSpotDetailThunk:", spot);
     dispatch(getSingleSpot(spot));
-    console.log("************************getSpotDetailThunk:", spot);
     return spot;
-  } catch (err) {
-    console.error("Error fetching spot details:", err.message);
-    throw err;
+  }else {
+    const errors = await res.json();
+    return errors;
   }
 };
+// export const getSpotDetailThunk = (spotId) => async (dispatch) => {
+//   try {
+//     const res = await csrfFetch(`/api/spots/${spotId}`);
+
+//     // if (!res.ok) {
+//     //   const errors = await res.json();
+//     //   throw new Error(errors.message || "================Failed to get spot details=============");
+//     // }
+
+//     const spot = await res.json();
+//     dispatch(getSingleSpot(spot));
+//     console.log("************************getSpotDetailThunk:", spot);
+//     return spot;
+//   } catch (err) {
+//     console.error("Error fetching spot details:", err.message);
+//     throw err;
+//   }
+// };
 
 // ***************************getAllSpotsThunk**************************
 // these functions hit routes

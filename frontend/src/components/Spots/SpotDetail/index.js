@@ -32,8 +32,14 @@ export default function SpotDetail() {
   const [reloadPage, setReloadPage] = useState(false);
 
   const [showCreateReviewForm, setShowCreateReviewForm] = useState(false);
-  const avgRating = spot.avgStarRating ? spot.avgStarRating.toFixed(1) : "N/A";
-  const numberOfReviews = spot.numReviews;
+
+  // const avgRating = spot.avgStarRating ? spot.avgStarRating.toFixed(1) : "New";
+  // const numberOfReviews = spot.numReviews  ? spot.numReviews : "";
+
+  const avgRating = spot.avgStarRating ? spot.avgStarRating.toFixed(1) : "New";
+  const numberOfReviews = spot.numReviews > 0 ? spot.numReviews : "";
+
+
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -56,7 +62,7 @@ export default function SpotDetail() {
     // Handle the rating change here (e.g., update it in the state)
     setRating(newRating);
   };
-
+  if(!spot) return null
 
   return (
     <>
@@ -103,7 +109,8 @@ export default function SpotDetail() {
             <div className="price-rating-number-of-reviews-container">
               <p style={{ margin: "0.2rem", fontSize: "1rem", color: "var(--black)"}}>
                 <span style={{ fontWeight: "600", fontSize: 20 }}>${spot.price}</span>{" "}night</p>
-              <div className="spot-number-of-reviews-and-rating-container"><p>{`⭐ ${avgRating} · ${spot.numReviews} reviews`}</p></div>
+              {/* <div className="spot-number-of-reviews-and-rating-container"><p>{`⭐ ${avgRating} · ${spot.numReviews}`} </p></div> */}
+              <p>{`⭐ ${avgRating}${numberOfReviews !== "" ? ` · ${numberOfReviews} reviews` : ""}`}</p>
             </div>
             <div className="reserve-btn"><button type="button" onClick={() => alert("")}>Reserve</button></div>
           </div>
@@ -112,35 +119,30 @@ export default function SpotDetail() {
       <ul>
       <div className="reviews-container">
         <div className="review-and-post-Review-button">
-          <h2>{`⭐ ${avgRating} · ${numberOfReviews} reviews`}</h2>
+          {/* <h2>{`⭐ ${avgRating} · ${numberOfReviews} reviews`}</h2> */}
+          <h2>{`⭐ ${avgRating}${numberOfReviews !== "" ? ` · ${numberOfReviews} reviews` : ""}`}</h2>
+
+          {/* <OpenModalButton buttonText="Post Your Review" modalComponent={<CreateReviewModal spotId={spot.id } setReloadPage={setReloadPage} />} /> */}
           <OpenModalButton buttonText="Post Your Review" modalComponent={<CreateReviewModal spotId={spot.id } setReloadPage={setReloadPage} />} />
         </div>
-       
-        {reviews.length >= 1 &&
-          reviews.map((review, index) => (
-            <div className="review-item" key={index}>
-              <h3>
-                {review.User.firstName} {review.User.lastName}
-              </h3>
-              <p style={{ fontSize: "1.1rem", color: "grey" }}>
-                {formatDate(review.createdAt)}
-              </p>
-              <p>{review.review}</p>
-            </div>
-          ))}
-      </div>
+
+        {reviews && reviews.length >= 1 ? (
+            reviews.map((review, index) => (
+              <div className="review-item" key={index}>
+                <h3>
+                  {review.User.firstName} {review.User.lastName}
+                </h3>
+                <p style={{ fontSize: "1.1rem", color: "grey" }}>
+                  {formatDate(review.createdAt)}
+                </p>
+                <p>{review.review}</p>
+              </div>
+            ))
+            ) : (
+            <p>Be the frst to post a review!</p>
+        )}
+</div>
     </ul>
-      {/* {showCreateReviewForm ? (
-        <CreateReview
-          spotId={spot.id}
-          closeForm={() => setShowCreateReviewForm(false)}
-        />
-      ) : (
-        <button onClick={() => setShowCreateReviewForm(true)} >
-          Create a Review
-        </button>
-      )}
-      <ReviewList spotId={spot.id} /> */}
 
       </div>
     </>

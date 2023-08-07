@@ -50,7 +50,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllSpotsThunk } from "../../../store/spots";
 import { Link } from "react-router-dom";
-import "./spots.css";
+// import "./spots.css";
+import "./AllSpots.css";
 
 export default function GetAllSpots() {
   const spots = useSelector((state) => state.spots.allSpots);

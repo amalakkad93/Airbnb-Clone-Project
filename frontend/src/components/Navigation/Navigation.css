@@ -1,34 +1,5 @@
-button:hover {
-  color: #800080;
-  border-color: #800080;
-  background-color: white;
-}
-.profile-dropdown.hidden {
-  display: none;
-  list-style-type: none;
-}
-.profile-dropdown {
-  display: block;
-  list-style-type: none;
-  position: absolute;
-  top: 35px; /* Adjust the distance from the button as needed */
-  right: 0;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 10px;
-  min-width: 150px;
-  cursor: pointer;
-  border-bottom: 1px solid #ccc;
-  /* padding: 8px 0; */
-}
-.profile-dropdown li:last-child {
-  border-bottom: none;
-}
-
+/* Navbar styles */
 .navBar-container {
-
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 12px 0;
@@ -38,43 +9,35 @@ button:hover {
   display: flex;
   width: 100%;
   justify-content: space-between;
-  /* align-items: center; */
-
-  /* padding: 0 20px; */
+  align-items: center;
 }
 
 .navBar-logo-create-link {
   display: flex;
-  /* align-items: center; */
-  text-align: left;
+  align-items: center;
 }
 
 .navbar-logo {
   text-decoration: none;
-  color: #000;
+  color: #ff385c;
   font-size: 24px;
   font-weight: bold;
 }
 
 .navbar-logo img {
-  /* width: 40px;
-  height: 40px;
-  margin-right: 10px; */
   height: 2rem;
-  display: flex;
-  justify-content: flex-start;
+  margin-right: 10px;
 }
 
 .create-new-spot {
   text-decoration: none;
-  color: #008489;
+  color: #ff385c;
   font-size: 18px;
   font-weight: bold;
-  margin-left: 30px;
 }
 
 .create-new-spot:hover {
-  color: #005e63;
+  color: #f60048;
 }
 
 .profile-button-container {
@@ -91,15 +54,18 @@ button:hover {
   font-size: 16px;
   font-weight: bold;
   text-decoration: none;
-  color: #008489;
+  color: #ff385c;
   transition: background-color 0.2s ease-in-out;
 }
 
 .profile-button:hover {
   background-color: #f5f5f5;
 }
+
 .navBar-far-right {
   text-align: right;
   list-style-type: none;
   display: inline-block;
 }
+
+/* Add other styles as needed */

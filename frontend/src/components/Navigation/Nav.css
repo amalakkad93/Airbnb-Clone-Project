@@ -1,48 +1,43 @@
-/* Nav.css */
+/* Navbar styles */
 .navBar-container {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 12px 0;
-  overflow: hidden; /* Prevent horizontal scroll */
 }
 
 .navBar-inner-container {
   display: flex;
   width: 100%;
   justify-content: space-between;
-  padding: 0 20px;
-  box-sizing: border-box;
+  align-items: center;
 }
 
 .navBar-logo-create-link {
   display: flex;
   align-items: center;
-  text-align: left;
 }
 
 .navbar-logo {
   text-decoration: none;
-  color: #000;
+  color: #ff385c;
   font-size: 24px;
   font-weight: bold;
 }
 
 .navbar-logo img {
   height: 2rem;
-  display: flex;
-  justify-content: flex-start;
+  margin-right: 10px;
 }
 
 .create-new-spot {
-  /* text-decoration: none; */
-  color: #008489;
+  text-decoration: none;
+  color: #ff385c;
   font-size: 18px;
   font-weight: bold;
-  margin-left: 30px;
 }
 
 .create-new-spot:hover {
-  color: #005e63;
+  color: #f60048;
 }
 
 .profile-button-container {
@@ -59,7 +54,7 @@
   font-size: 16px;
   font-weight: bold;
   text-decoration: none;
-  color: #008489;
+  color: #ff385c;
   transition: background-color 0.2s ease-in-out;
 }
 
@@ -67,185 +62,8 @@
   background-color: #f5f5f5;
 }
 
-/* Styles for the dropdown in the navigation */
 .navBar-far-right {
   text-align: right;
   list-style-type: none;
   display: inline-block;
 }
-/* ProfileButton.css */
-/* .profile-dropdown-container {
-  position: relative;
-}
-
-.profile-dropdown {
-  position: absolute;
-  background: white;
-  list-style: none;
-  top: calc(100% + 5px);
-  left: 50%;
-  transform: translateX(-50%);
-  width: 150px;
-  border-radius: 5px;
-
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 6px;
-  z-index: 1;
-}
-
-.profile-dropdown li {
-  line-height: 30px;
-  padding: 5px 20px;
-  cursor: pointer;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-}
-
-.profile-dropdown li:last-child {
-  border-bottom: none;
-}
-
-.profile-dropdown li label {
-  font-size: 18px;
-}
-
-.profile-dropdown li a {
-  color: white;
-  text-decoration: none;
-  font-size: 18px;
-  display: block;
-}
-
-.profile-dropdown li a:hover,
-.profile-dropdown li label:hover {
-  color: cyan;
-}
-
-.profile-dropdown ul {
-  position: static;
-}
-
-.profile-dropdown ul li {
-  line-height: 30px;
-  padding-left: 30px;
-  border-bottom: none;
-}
-
-.profile-dropdown ul li a {
-  color: #e6e6e6;
-  font-size: 17px;
-}
-
-.profile-dropdown li span {
-  font-size: 20px;
-  float: right;
-  margin-top: 10px;
-  padding: 0 10px;
-  transition: 0.5s;
-}
-
-.profile-dropdown li span.rotate {
-  transform: rotate(-180deg);
-}
-
-.profile-dropdown.hidden {
-  display: none;
-}
-
-.profile-dropdown i {
-  cursor: pointer;
-  font-size: 20px;
-  color: white;
-}
-
-.profile-dropdown button {
-  color: white;
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-.profile-dropdown li .modal-item {
-  cursor: pointer;
-  color: white;
-}
-.profile-dropdown.show {
-  display: block;
-}
-.profile-dropdown li.login-signup-row {
-  display: flex;
-} */
-/* ProfileButton.css */
-
-/* .profile-dropdown-container {
-  position: relative;
-}
-
-.profile-dropdown {
-  display: none;
-  position: absolute;
-  top: calc(100% + 5px);
-  left: 50%;
-  transform: translateX(-50%);
-  width: 200px;
-  background: #1b1b1b;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 6px;
-  z-index: 1;
-}
-
-.profile-dropdown ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.profile-dropdown li {
-  line-height: 30px;
-  padding: 5px 20px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-}
-
-.profile-dropdown li:last-child {
-  border-bottom: none;
-}
-
-.profile-dropdown li a {
-  color: white;
-  text-decoration: none;
-  font-size: 18px;
-}
-
-.profile-dropdown li a:hover {
-  color: cyan;
-} */
-
-/* New styles for the login form row */
-/* .profile-dropdown li.login-form-row {
-  display: flex;
-  align-items: center;
-  padding: 8px;
-}
-
-.profile-dropdown li.login-form-row label {
-  margin-right: 8px;
-}
-
-.profile-dropdown li.login-form-row input {
-  padding: 4px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.profile-dropdown li.login-form-row button {
-  padding: 4px 8px;
-  background-color: #1b1b1b;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.profile-dropdown.hidden {
-  display: none;
-} */

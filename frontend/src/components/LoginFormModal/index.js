@@ -31,22 +31,24 @@ function LoginFormModal() {
       <form onSubmit={handleSubmit} className="spot-form">
         <div>
         <label className="label-login">
-          <div class="label-title">Username or Email</div>
+          <div class="label-title"></div>
           <input
             type="text"
             value={credential}
+            placeholder="Username or Email"
             onChange={(e) => setCredential(e.target.value)}
             required
           />
         </label>
         </div>
         <div>
-          <div class="label-title">Password</div>
+          <div class="label-title"></div>
         <label className="label-login">
           {/* Password */}
           <input
             type="password"
             value={password}
+            placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
             required
           />
@@ -56,6 +58,7 @@ function LoginFormModal() {
           <p>{errors.credential}</p>
         )}
         <button type="submit">Log In</button>
+
       </form>
     </>
   );
