@@ -32,9 +32,6 @@ export default function SpotForm({ formType, spotId }) {
   const oneSpot = useSelector((state) => state.spots.spotDetail);
   let spotEdit;
 
-
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const imageUrls = [previewImage, imageUrl2, imageUrl3, imageUrl4, imageUrl5];
@@ -71,10 +68,10 @@ export default function SpotForm({ formType, spotId }) {
     }
 
     if (formType === 'Edit') {
-      console.log("********I am in Edit spot form*******", spotId)
+
       // spotEdit = await dispatch(updateSpotThunk());
       try {
-        console.log("***************", spotId)
+
         const updatedSpot = { id: spotId, address, city, state, country, lat, lng, name, description, price };
         // const updatedSpot = { address, city, state, country, lat, lng, name, description, price };
         // console.log("***************", updatedSpot)
@@ -90,6 +87,25 @@ export default function SpotForm({ formType, spotId }) {
       }
     }
 
+    // const errorsObj = {};
+    // if (formType === 'Create') {
+    //   if (!address) errorsObj.address = 'Address is required';
+    //   if (!city) errorsObj.city = 'City is required';
+    //   if (!state) errorsObj.state = 'State is required';
+    //   if (!country) errorsObj.country = 'Country is required';
+    //   if (!lat) errorsObj.lat = 'Latitude is required';
+    //   if (!lng) errorsObj.lng = 'Longitude is required';
+    //   if (!name) errorsObj.name = 'Name is required';
+    //   if (!description) errorsObj.description = 'Description is required';
+    //   if (!price) errorsObj.price = 'Price is required';
+    //   if (!previewImage) errorsObj.previewImage = 'Preview Image is required';
+
+    //   setValidationObj(errorsObj);
+    // }
+
+  };
+
+  useEffect(() => {
     const errorsObj = {};
     if (formType === 'Create') {
       if (!address) errorsObj.address = 'Address is required';
@@ -105,32 +121,13 @@ export default function SpotForm({ formType, spotId }) {
 
       setValidationObj(errorsObj);
     }
-
-  };
-
-  // useEffect(() => {
-  //   const errorsObj = {};
-  //   if (formType === 'Create') {
-  //     if (!address) errorsObj.address = 'Address is required';
-  //     if (!city) errorsObj.city = 'City is required';
-  //     if (!state) errorsObj.state = 'State is required';
-  //     if (!country) errorsObj.country = 'Country is required';
-  //     if (!lat) errorsObj.lat = 'Latitude is required';
-  //     if (!lng) errorsObj.lng = 'Longitude is required';
-  //     if (!name) errorsObj.name = 'Name is required';
-  //     if (!description) errorsObj.description = 'Description is required';
-  //     if (!price) errorsObj.price = 'Price is required';
-  //     if (!previewImage) errorsObj.previewImage = 'Preview Image is required';
-
-  //     setValidationObj(errorsObj);
-  //   }
-  // }, [address, city, state, country, lat, lng, name, description, price, previewImage]);
+  }, [address, city, state, country, lat, lng, name, description, price, previewImage]);
 
   useEffect(() => {
     if (formType === 'Edit') {
       dispatch(getSpotDetailThunk(spotId))
     .then(data => {
-      console.log("***************", data)
+
         setAddress(data.address);
         setCity(data.city);
         setState(data.state);
@@ -161,6 +158,8 @@ export default function SpotForm({ formType, spotId }) {
         <h1>{formType === 'Create' ? 'Create a new Spot' : 'Update your Spot'}</h1>
         <div>
           <div className="div-title">
+          <h2>Where is your place located?</h2>
+          <p>Guests will only get you exact address once they booked a reservation.</p>
             <div className="error-container">
               <p>Country</p>
               {validationObj.country && <p className="errors">{validationObj.country}</p>}
@@ -168,7 +167,7 @@ export default function SpotForm({ formType, spotId }) {
           </div>
           <label htmlFor="Country" className="label"></label>
 
-          <input type="text" id="country" value={country} onChange={(e) => setCountry(e.target.value)} />
+          <input type="text" id="country"  placeholder="Country" value={country} onChange={(e) => setCountry(e.target.value)} />
         </div>
         {/* **************************************************************** */}
         <div className="city-state-container">
@@ -178,14 +177,14 @@ export default function SpotForm({ formType, spotId }) {
                 <p>City</p>
                 {validationObj.city && <p className="errors">{validationObj.city}</p>}
               </div>
-              <input type="text" id="state" value={state} onChange={(e) => setState(e.target.value)} />
+              <input type="text" id="state" placeholder="State"  value={state} onChange={(e) => setState(e.target.value)} />
             </div>
             <div className="city">
               <div className="error-container">
                 <p>State</p>
                 {validationObj.state && <p className="errors">{validationObj.state}</p>}
               </div>
-              <input type="text" id="city" value={city} onChange={(e) => setCity(e.target.value)} />
+              <input type="text" id="city" placeholder="City" value={city} onChange={(e) => setCity(e.target.value)} />
             </div>
           </div>
         </div>
@@ -196,7 +195,7 @@ export default function SpotForm({ formType, spotId }) {
           <label htmlFor="Address" className="label"></label>
           {}
 
-          <input type="text" id="address" value={address} onChange={(e) => setAddress(e.target.value)} />
+          <input type="text" id="address" placeholder="Address"  value={address} onChange={(e) => setAddress(e.target.value)} />
         </div>
         {/* **************************************************************** */}
         <div className="lat-lng-container">
@@ -206,14 +205,14 @@ export default function SpotForm({ formType, spotId }) {
                 <p>latitude</p>
                 {validationObj.lat && <p className="errors">{validationObj.lat}</p>}
               </div>
-              <input type="text" id="lat" value={lat} onChange={(e) => setLat(e.target.value)} />
+              <input type="text" id="lat" placeholder="latitude" value={lat} onChange={(e) => setLat(e.target.value)} />
             </div>
             <div className="Longitude">
               <div className="error-container">
                 <p>Longitude</p>
                 {validationObj.lng && <p className="errors">{validationObj.lng}</p>}
               </div>
-              <input type="text" id="lng" value={lng} onChange={(e) => setLng(e.target.value)} />
+              <input type="text" id="lng" placeholder="Longitude" value={lng} onChange={(e) => setLng(e.target.value)} />
             </div>
           </div>
         </div>
@@ -221,9 +220,11 @@ export default function SpotForm({ formType, spotId }) {
         <div className={formType === 'Create' ? 'create-description-textarea' : 'edit-description-textarea'}>
           <div className="div-title">Describe your place to guests</div>
           <label htmlFor="description"></label>
+          <p> mention the best features of your space, any special amenities like fast wifi or parking, and what you love about the neighborhood</p>
           <textarea
             type="text"
             id="description"
+            placeholder="Please write at least 30 characters"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             className={formType === 'Edit' ? 'edit-form-textarea' : ''}
@@ -232,14 +233,14 @@ export default function SpotForm({ formType, spotId }) {
         <div>
           <div className="div-title">Create a title for your spot</div>
           <label htmlFor="Name" className="label"></label>
-          <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} />
+          <input type="text" id="name" placeholder="Name of your spot" value={name} onChange={(e) => setName(e.target.value)} />
         </div>
         <div>
           <div className="div-title">Set a base price for your spot</div>
           <label htmlFor="Price" className="label"></label>
           <div className="price-dollar-sign">
             <div>$</div>
-            <input type="text" id="price" value={price} onChange={(e) => setPrice(e.target.value)} />
+            <input type="text" id="price" placeholder="Price per night (USD)" value={price} onChange={(e) => setPrice(e.target.value)} />
           </div>
         </div>
         {formType === 'Create' && (
@@ -250,7 +251,7 @@ export default function SpotForm({ formType, spotId }) {
                 type="url"
                 id="imageUrl1"
                 value={previewImage}
-                placeholder="Image URL"
+                placeholder="Preview Image URL"
                 onChange={(e) => {
                   setPreviewImage(e.target.value);
                   clearImageError('previewImage');
@@ -270,7 +271,7 @@ export default function SpotForm({ formType, spotId }) {
                   clearImageError('imageUrl2');
                 }}
               />
-              {validationObj.imageUrl2 && <p className="errors">{validationObj.imageUrl2}</p>}
+              {/* {validationObj.imageUrl2 && <p className="errors">{validationObj.imageUrl2}</p>} */}
             </div>
             <div>
               <label htmlFor="imageUrl3"></label>
@@ -284,7 +285,7 @@ export default function SpotForm({ formType, spotId }) {
                   clearImageError('imageUrl3');
                 }}
               />
-              {validationObj.imageUrl3 && <p className="errors">{validationObj.imageUrl3}</p>}
+              {/* {validationObj.imageUrl3 && <p className="errors">{validationObj.imageUrl3}</p>} */}
             </div>
             <div>
               <label htmlFor="imageUrl4"></label>
@@ -298,7 +299,7 @@ export default function SpotForm({ formType, spotId }) {
                   clearImageError('imageUrl4');
                 }}
               />
-              {validationObj.imageUrl4 && <p className="errors">{validationObj.imageUrl4}</p>}
+              {/* {validationObj.imageUrl4 && <p className="errors">{validationObj.imageUrl4}</p>} */}
             </div>
             <div>
               <label htmlFor="imageUrl5"></label>
@@ -312,7 +313,7 @@ export default function SpotForm({ formType, spotId }) {
                   clearImageError('imageUrl5');
                 }}
               />
-              {validationObj.imageUrl5 && <p className="errors">{validationObj.imageUrl5}</p>}
+              {/* {validationObj.imageUrl5 && <p className="errors">{validationObj.imageUrl5}</p>} */}
             </div>
           </div>
         )}
@@ -322,4 +323,4 @@ export default function SpotForm({ formType, spotId }) {
       </form>
     </div>
   );
-}
+              }

@@ -288,7 +288,6 @@ export const  deleteSpot = (id) => ({ type: DELETE_SPOT, id });
 export const createSpot = (spot) =>({ type: CREATE_SPOT, spot});
 
 export const getAllSpots = state => state?.spots ? Object.values(state.spots) : [];
-console.log("************************************getAllSpots", getAllSpots);
 export const getSpot = spotId => state => state?.spots ? state.spots[spotId] : null;
 
 
@@ -388,7 +387,7 @@ export const getOwnerAllSpotsThunk = () => async (dispatch) => {
     return Spots;
   } else {
     const errors = await res.json();
-    console.log("spot NOT OK getOwnerAllSpotsThunk:")
+
     return errors;
   }
 };
@@ -410,7 +409,7 @@ export const deleteSpotThunk = (spotId) => async (dispatch) => {
 // ***************************updateSpotThunk**************************
 // these functions hit routes
 export const updateSpotThunk = (updatedSpot) => async (dispatch) => {
-  console.log("*******************************updatedSpotID:", typeof updatedSpot.id)
+
 
 try {
   const res = await csrfFetch(`/api/spots/${updatedSpot.id}`, {
@@ -421,7 +420,7 @@ try {
     },
     body: JSON.stringify(updatedSpot)
   });
-  console.log("*******************************res from updateSpotThunk:", updatedSpot.id)
+
   const data = await res.json();
   const editedSpot = data;
   dispatch(getSpotDetailThunk(editedSpot.id));

@@ -1,39 +1,4 @@
-// // frontend/src/components/Navigation/index.js
-// import React from 'react';
-// import { NavLink } from 'react-router-dom';
-// import { useSelector } from 'react-redux';
-// import ProfileButton from './ProfileButton';
-// import logo from "../../assets/logo/long-logo.png";
-// import './Navigation.css';
 
-// function Navigation({ isLoaded }){
-//   const sessionUser = useSelector(state => state.session.user);
-
-//   return (
-//     <ul className="navbar">
-//       <img src={logo} alt="logo" className="navbar-logo" />
-//       <div className="menu">
-//       {/* <li> */}
-//         <NavLink exact to="/"></NavLink>
-//       {/* </li> */}
-//       {isLoaded && (
-//         <li>
-//           <ProfileButton user={sessionUser} />
-
-//         </li>
-
-//       )}
-
-//       </div>
-//     </ul>
-//   );
-// }
-
-// export default Navigation;
-
-
-// frontend/src/components/Navigation/index.js
-// import React, {useState} from "react";
 import { NavLink } from "react-router-dom";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
@@ -72,7 +37,7 @@ function Navigation({ isLoaded }) {
                 )}
               {isLoaded && (
                 <ul className="navBar-far-right">
-                  
+
                   <li>
                     <ProfileButton user={sessionUser} showMenu={showMenu} />
                   </li>

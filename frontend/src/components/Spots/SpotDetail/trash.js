@@ -29,7 +29,7 @@ export default function SpotDetail() {
   if (!spot.id) return null;
 
   const displayEditBtn = () => sessionUser && sessionUser.id === spot.userId;
-  console.log("spot: ", spot)
+
 
   return (
     <div className="single-spot-main-container">

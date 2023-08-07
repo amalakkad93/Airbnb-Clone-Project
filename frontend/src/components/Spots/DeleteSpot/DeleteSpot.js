@@ -32,8 +32,8 @@ function DeleteSpot({spotId}) {
         <div>
           <h1>Confirm Delete</h1>
           <p>This action cannot be undone.</p>
-        <button onClick={() => deleteSpotCallBack()}>Delete</button>
-        <button onClick={() => closeModal()}>Cancel</button>
+        <button onClick={deleteSpotCallBack}>Delete</button>
+        <button onClick={closeModal}>Cancel</button>
         </div>
     </>
   );

@@ -58,7 +58,7 @@ export const getAllReviewsThunk = (spotId) => async (dispatch) => {
     const { Reviews } = await res.json(); // { Spots: [] }
     // do the thing with this data
     // dispatch(getAllReviews(normalizeArr(Reviews)));
-    console.log("In res.ok in thunk", Reviews)
+  
     dispatch(getAllReviews(Reviews));
 
     // dispatch(getAllSpots(Spots))
