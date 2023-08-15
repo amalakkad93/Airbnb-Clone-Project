@@ -6,7 +6,8 @@ import * as sessionActions from '../../store/session';
 import OpenModalMenuItem from './OpenModalMenuItem';
 import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 // import "./Navigation.css";
 // import "./ProfileButton.css";
 import "./Nav2.css"
@@ -15,7 +16,7 @@ function ProfileButton({ user }) {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const openMenu = () => {
     if (showMenu) return;
@@ -59,8 +60,8 @@ function ProfileButton({ user }) {
             <li>{user.username}</li>
             <li>{user.firstName} {user.lastName}</li>
             <li>{user.email}</li>
-            <li><button className="Manage-spot-button" onClick={ (e) => {history.push('/owner/spots')}}>Manage Spots</button></li>
-            <li><button type="button" onClick={(e)=>{ history.push('/reviews/current') }}>Manage Reviews</button></li>
+            <li><button className="Manage-spot-button" onClick={ (e) => {navigate('/owner/spots')}}>Manage Spots</button></li>
+            <li><button type="button" onClick={(e)=>{ navigate('/reviews/current') }}>Manage Reviews</button></li>
             <li><button onClick={logout} className="buttons">Log Out</button></li>
           </>
         ) : (

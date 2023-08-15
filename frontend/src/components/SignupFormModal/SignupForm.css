@@ -11,10 +11,16 @@ input, label {
   float: left;
 }
 
-.spot-form{
+.signup-form button[disabled] {
+  background-color: grey;
+  cursor: not-allowed;
+}
+
+
+.signup-form {
   /* position: absolute; */
-  width: 400px;
-  height: 400px;
+  width: 289px;
+  height: 401px;
   background : white;
   z-index: 1000;
 
@@ -26,19 +32,19 @@ input, label {
   box-shadow: 0 15px 35px rgba(0,0,0,9);
 }
 
-/* 8888888888888888888 */
-.spot-form label {
+
+.signup-formlabel {
   display: flex;
   align-items: center;
   margin-bottom: 20px;
 }
-.spot-form  label:last-child {
+.signup-form label:last-child {
   margin-bottom: 0;
 }
 .spot-form label > *:last-child {
   margin-left: 10px;
 }
-.spot-form input {
+.signup-form input {
   width: 100%;
   height: 40px;
   border-radius: 5px;
@@ -46,11 +52,11 @@ input, label {
   padding: 0 10px;
   font-size: 16px;
 }
-.spot-form input:focus {
+.signup-form input:focus {
   outline: none;
   border-color: black;
 }
-.spot-form button {
+.signup-form button {
   width: 100%;
   height: 40px;
   border-radius: 5px;
@@ -62,10 +68,10 @@ input, label {
   cursor: pointer;
 }
 
-.spot-form button:hover {
+.signup-form button:hover {
   background-color: #FF5A5F
 }
-.spot-form .errors {
+.signup-form .errors {
   color: red;
   margin-bottom: 20px;
 }

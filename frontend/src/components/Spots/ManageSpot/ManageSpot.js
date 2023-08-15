@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getOwnerAllSpotsThunk } from "../../../store/spots";
 
 import { Link } from "react-router-dom";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 import OpenModalButton from "../../OpenModalButton";
 import DeleteSpot from "../DeleteSpot/DeleteSpot";
 // import "./spots.css";
@@ -12,7 +13,7 @@ import DeleteSpot from "../DeleteSpot/DeleteSpot";
 export default function SpotItem() {
   const spots = useSelector((state) => state.spots.allSpots);
   const spotArr = Object.values(spots);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
@@ -49,7 +50,7 @@ export default function SpotItem() {
               </div>
             </Link>
             <div className="edit-delete-btns">
-              <button className="edit-btn" onClick={(e) => history.push(`/spots/edit/${spot.id}`)}>Edit</button>
+              <button className="edit-btn" onClick={(e) => navigate(`/spots/edit/${spot.id}`)}>Edit</button>
               <OpenModalButton
                 buttonText="Delete"
                 modalComponent={<DeleteSpot spotId={spot.id} />}

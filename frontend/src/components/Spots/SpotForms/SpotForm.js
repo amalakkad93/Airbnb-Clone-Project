@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import {createSpotThunk, getSpotDetailThunk, updateSpotThunk } from '../../../store/spots';
 
 
@@ -10,6 +10,7 @@ import './CreateSpotForm.css';
 export default function SpotForm({ formType, spotId }) {
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
@@ -25,12 +26,10 @@ export default function SpotForm({ formType, spotId }) {
   const [imageUrl3, setImageUrl3] = useState('');
   const [imageUrl4, setImageUrl4] = useState('');
   const [imageUrl5, setImageUrl5] = useState('');
-  const [reloadPage, setReloadPage] = useState(false);
   const [validationObj, setValidationObj] = useState({});
-  const history = useHistory();
   const sessionUser = useSelector((state) => state.session.user);
   const oneSpot = useSelector((state) => state.spots.spotDetail);
-  let spotEdit;
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -63,7 +62,7 @@ export default function SpotForm({ formType, spotId }) {
     if (formType === 'Create') {
       const newlyCreateSpot = await dispatch(createSpotThunk(newSpot, newSpotImage, sessionUser));
       if (newlyCreateSpot.id) {
-        history.push(`/spots/${newlyCreateSpot.id}`);
+        navigate(`/spots/${newlyCreateSpot.id}`);
       } else return null;
     }
 
@@ -79,7 +78,7 @@ export default function SpotForm({ formType, spotId }) {
         const updatedSpotData = await dispatch(updateSpotThunk(updatedSpot));
         if (updatedSpotData) {
           // history.push(`/spots/${spotId}`);
-          history.push(`/spots/${updatedSpotData.id}`);
+          navigate(`/spots/${updatedSpotData.id}`);
         } else return null;
 
       } catch (error) {

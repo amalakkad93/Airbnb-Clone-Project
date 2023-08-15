@@ -361,6 +361,7 @@ export const getSpotDetailThunk = (spotId) => async (dispatch) => {
 // these functions hit routes
 export const getAllSpotsThunk = () => async (dispatch) => {
   const res = await csrfFetch("/api/spots");
+  // const res = await fetch("/api/spots");
 
   if (res.ok) {
     const { Spots } = await res.json(); // { Spots: [] }
