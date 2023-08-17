@@ -328,12 +328,15 @@ export const createSpotThunk = (newSpot, newSpotImage, sessionUser) => async (di
 // ***************************getSpotDetailThunk***************************
 export const getSpotDetailThunk = (spotId) => async (dispatch) => {
   const res = await csrfFetch(`/api/spots/${spotId}`);
+
   if (res.ok) {
     const spot = await res.json();
+
     // console.log("spot data FROM getSpotDetailThunk:", spot);
     dispatch(getSingleSpot(spot));
     return spot;
   }else {
+    
     const errors = await res.json();
     return errors;
   }

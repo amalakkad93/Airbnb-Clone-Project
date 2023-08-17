@@ -25,7 +25,7 @@ export default function SpotDetail() {
   const { spotId } = useParams();
   const dispatch = useDispatch();
   const [rating, setRating] = useState(3.5);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  // const [currentIndex, setCurrentIndex] = useState(0);
   const sessionUser = useSelector((state) => state.session.user);
   const spot = useSelector((state) => state.spots.singleSpot);
   const reviews = useSelector((state) => state.reviews.spot);
