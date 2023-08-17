@@ -1,31 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from "react-router-dom";
-import {createSpotThunk, getSpotDetailThunk, updateSpotThunk } from '../../../store/spots';
-
-
-import { GetCountries, GetState, GetCity, GetLanguages } from "react-country-state-city";
-
-import "react-country-state-city/dist/react-country-state-city.css";
-import './CreateSpotForm.css';
-
 export default function SpotForm({ formType, spotId }) {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [address, setAddress] = useState('');
-
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
   const [country, setCountry] = useState('');
-
-  const [countryid, setCountryid] = useState(0);
-  const [stateid, setStateid] = useState(0);
-  const [cityid, setCityid] = useState(0);
-  const [countryList, setCountryList] = useState([]);
-  const [stateList, setStateList] = useState([]);
-  const [cityList, setCityList] = useState([]);
-
   const [lat, setLat] = useState('');
   const [lng, setLng] = useState('');
   const [name, setName] = useState('');
@@ -38,8 +18,8 @@ export default function SpotForm({ formType, spotId }) {
   const [imageUrl4, setImageUrl4] = useState('');
   const [imageUrl5, setImageUrl5] = useState('');
   const [validationObj, setValidationObj] = useState({});
-  const sessionUser = useSelector((stateid) => stateid.session.user);
-  const oneSpot = useSelector((stateid) => stateid.spots.spotDetail);
+  const sessionUser = useSelector((state) => state.session.user);
+  const oneSpot = useSelector((state) => state.spots.spotDetail);
 
 
   const handleSubmit = async (e) => {
@@ -57,7 +37,7 @@ export default function SpotForm({ formType, spotId }) {
       return;
     }
 
-    const newSpot = { address, cityid, stateid, countryid, lat, lng, name, description, price };
+    const newSpot = { address, city, state, country, lat, lng, name, description, price };
     let newSpotImage= [];
     const tempNewSpotImage = [
       { url: previewImage, preview: true },
@@ -72,7 +52,6 @@ export default function SpotForm({ formType, spotId }) {
 
     if (formType === 'Create') {
       const newlyCreateSpot = await dispatch(createSpotThunk(newSpot, newSpotImage, sessionUser));
-
       if (newlyCreateSpot.id) {
         navigate(`/spots/${newlyCreateSpot.id}`);
       } else return null;
@@ -83,8 +62,8 @@ export default function SpotForm({ formType, spotId }) {
       // spotEdit = await dispatch(updateSpotThunk());
       try {
 
-        const updatedSpot = { id: spotId, address, cityid, stateid, countryid, lat, lng, name, description, price };
-        // const updatedSpot = { address, cityid, stateid, countryid, lat, lng, name, description, price };
+        const updatedSpot = { id: spotId, address, city, state, country, lat, lng, name, description, price };
+        // const updatedSpot = { address, city, state, country, lat, lng, name, description, price };
         // console.log("***************", updatedSpot)
 
         const updatedSpotData = await dispatch(updateSpotThunk(updatedSpot));
@@ -98,15 +77,31 @@ export default function SpotForm({ formType, spotId }) {
       }
     }
 
+    // const errorsObj = {};
+    // if (formType === 'Create') {
+    //   if (!address) errorsObj.address = 'Address is required';
+    //   if (!city) errorsObj.city = 'City is required';
+    //   if (!state) errorsObj.state = 'State is required';
+    //   if (!country) errorsObj.country = 'Country is required';
+    //   if (!lat) errorsObj.lat = 'Latitude is required';
+    //   if (!lng) errorsObj.lng = 'Longitude is required';
+    //   if (!name) errorsObj.name = 'Name is required';
+    //   if (!description) errorsObj.description = 'Description is required';
+    //   if (!price) errorsObj.price = 'Price is required';
+    //   if (!previewImage) errorsObj.previewImage = 'Preview Image is required';
+
+    //   setValidationObj(errorsObj);
+    // }
+
   };
 
   useEffect(() => {
     const errorsObj = {};
     if (formType === 'Create') {
       if (!address) errorsObj.address = 'Address is required';
-      if (!cityid) errorsObj.cityid = 'cityid is required';
-      if (!stateid) errorsObj.stateid = 'stateid is required';
-      if (!countryid) errorsObj.countryid = 'countryid is required';
+      if (!city) errorsObj.city = 'City is required';
+      if (!state) errorsObj.state = 'State is required';
+      if (!country) errorsObj.country = 'Country is required';
       if (!lat) errorsObj.lat = 'Latitude is required';
       if (!lng) errorsObj.lng = 'Longitude is required';
       if (!name) errorsObj.name = 'Name is required';
@@ -116,12 +111,13 @@ export default function SpotForm({ formType, spotId }) {
 
       setValidationObj(errorsObj);
     }
-  }, [address, cityid, stateid, countryid, lat, lng, name, description, price, previewImage]);
+  }, [address, city, state, country, lat, lng, name, description, price, previewImage]);
 
   useEffect(() => {
     if (formType === 'Edit') {
       dispatch(getSpotDetailThunk(spotId))
-      .then(data => {
+    .then(data => {
+
         setAddress(data.address);
         setCity(data.city);
         setState(data.state);
@@ -131,29 +127,9 @@ export default function SpotForm({ formType, spotId }) {
         setName(data.name);
         setDescription(data.description);
         setPrice(data.price);
-
-        // Set the IDs for country, state, and city so they are selected in the dropdowns
-        setCountryid(data.country.id);
-        setStateid(data.state.id);
-        setCityid(data.city.id);
-
-        // Fetch states for the country and cities for the state to populate the respective dropdowns
-        GetState(data.country.id).then((result) => {
-          setStateList(result);
-        });
-        GetCity(data.country.id, data.state.id).then((result) => {
-          setCityList(result);
-        });
       })
     }
-  }, [spotId, formType, dispatch]);
-
-  //********************************************************************
-  // useEffect(() => {
-  //   GetCountries().then((result) => setCountryList(result));
-  // }, []);
-  //********************************************************************
-
+  } , [spotId, formType]);
 
   const clearImageError = (fieldName) => {
     if (validationObj[fieldName]) {
@@ -170,70 +146,38 @@ export default function SpotForm({ formType, spotId }) {
         onSubmit={handleSubmit}
       >
         <h1>{formType === 'Create' ? 'Create a new Spot' : 'Update your Spot'}</h1>
-        {/* ***************************countryid*************************************** */}
+        {/* ***************************Country*************************************** */}
         <div>
           <div className="div-title">
           <h2>Where is your place located?</h2>
           <p>Guests will only get you exact address once they booked a reservation.</p>
             <div className="error-container">
-              <p>countryid</p>
-              {validationObj.countryid && <p className="errors">{validationObj.countryid}</p>}
+              <p>Country</p>
+              {validationObj.country && <p className="errors">{validationObj.country}</p>}
             </div>
           </div>
-          <label htmlFor="countryid" className="label"></label>
+          <label htmlFor="Country" className="label"></label>
 
-          {/* <input type="text" id="countryid"  placeholder="countryid" value={countryid} onChange={(e) => setCountry(e.target.value)} /> */}
-          <select
-            onChange={(e) => {
-              const countryid = stateList[e.target.value];
-              setCountryid(countryid.id);
-              GetState(countryid.id).then((result) => setStateList(result));
-            }}
-            value={countryid}
-          >
-            {countryList.map((item, index) => (<option key={index} value={index}>{item.name}</option>))}
-          </select>
-
+          <input type="text" id="country"  placeholder="Country" value={country} onChange={(e) => setCountry(e.target.value)} />
         </div>
-        {/* *****************************cityid and stateid*********************************** */}
-        <div className="cityid-stateid-container">
-          <div className="cityid-stateid-input-box">
-            {/* ***************************cityid*************************************** */}
-            <div className="cityid">
+        {/* *****************************City and State*********************************** */}
+        <div className="city-state-container">
+          <div className="city-state-input-box">
+            {/* ***************************City*************************************** */}
+            <div className="city">
               <div className="error-container">
-                <p>cityid</p>
-                {validationObj.cityid && <p className="errors">{validationObj.cityid}</p>}
+                <p>City</p>
+                {validationObj.city && <p className="errors">{validationObj.city}</p>}
               </div>
-              {/* <input type="text" id="cityid" placeholder="cityid" value={cityid} onChange={(e) => setCity(e.target.value)} /> */}
-              <select
-                onChange={(e) => {
-                  const cityid = cityList[e.target.value];
-                  setCityid(cityid.id);
-                }}
-                value={cityid}
-              >
-                {cityList.map((item, index) => (<option key={index} value={index}>{item.name}</option>))}
-              </select>
-
+              <input type="text" id="city" placeholder="City" value={city} onChange={(e) => setCity(e.target.value)} />
             </div>
-            {/* ***************************stateid*************************************** */}
-            <div className="stateid">
+            {/* ***************************State*************************************** */}
+            <div className="state">
               <div className="error-container">
-                <p>stateid</p>
-                {validationObj.stateid && <p className="errors">{validationObj.stateid}</p>}
+                <p>State</p>
+                {validationObj.state && <p className="errors">{validationObj.state}</p>}
               </div>
-              {/* <input type="text" id="stateid" placeholder="stateid"  value={stateid} onChange={(e) => setState(e.target.value)} /> */}
-
-              <select
-                onChange={(e) => {
-                  const stateid = stateList[e.target.value];
-                  setStateid(stateid.id);
-                  GetCity(countryid, stateid.id).then((result) => setCityList(result))
-                }}
-                value={stateid}
-              >
-                {stateList.map((item, index) => (<option key={index} value={index}>{item.name}</option>))}
-              </select>
+              <input type="text" id="state" placeholder="State"  value={state} onChange={(e) => setState(e.target.value)} />
             </div>
           </div>
         </div>

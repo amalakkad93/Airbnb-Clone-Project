@@ -33,7 +33,7 @@
 .form-container label > *:last-child {
   margin-left: 10px;
 }
-.form-container input {
+.form-container input, select {
   width: 100%;
   height: 40px;
   border-radius: 5px;
@@ -43,8 +43,9 @@
   margin-bottom: 20px;
   border: 2px solid black;
   background-color: rgb(207, 219, 252);
-
-
+}
+.form-container option {
+  background-color:white
 }
 .form-container input:focus {
   outline: none;
