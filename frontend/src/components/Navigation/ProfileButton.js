@@ -8,10 +8,10 @@ import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
 import { useNavigate } from "react-router-dom";
 
-// import "./Navigation.css";
+import "./Navigation.css";
 // import "./ProfileButton.css";
-import "./Nav2.css"
-// import "./Nav.css"
+
+
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);

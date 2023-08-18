@@ -4,8 +4,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
 import logo from "../../assets/logo/long-logo.png";
-import "./Nav2.css";
-// import "./Nav.css";
+import "./Navigation.css";
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
